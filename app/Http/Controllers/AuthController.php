@@ -17,7 +17,6 @@ class AuthController extends Controller
             'email' => ['required','string','email','max:255', 'unique:users,email'],
             'password' => ['required','string','min:8','confirmed'],
             'number_phone' => ['required','string'],
-            'profile_image' => ['file', 'image', 'mimes:jpg, png, jpeg'],
         ]);
 
         if ($credential->fails())
@@ -57,10 +56,5 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect()->route('home');
-    }
-
-    public function Halo()
-    {
-        return 'Halo';
     }
 }
