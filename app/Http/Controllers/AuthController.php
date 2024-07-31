@@ -24,18 +24,21 @@ class AuthController extends Controller
             return redirect()->back()->withErrors($credential->errors())->withInput($request->all());
         }
 
-        $image = $request->file('profile_image');
-        $path = $image->store('profile_image' . $request->username, 'public');
-
         $user = new User();
         $user->fullname = $request->fullname;
         $user->username = $request->username;
         $user->email = $request->email;
         $user->password = $request->fullname;
         $user->number_phone = $request->fullname;
-        $user->profile_image = $path;
-        $user->save();
+    
+        if ($request->hasFile('profile_image'))
+        {
+            $image = $request->file('profile_image');
+            $path = $image->store('profile_image' . $request->username, 'public');
+            $user->profile_image = $path;
+        }    
 
+        $user->save();
         Auth::login($user);
         return redirect()->route('home');
     }
