@@ -43,12 +43,14 @@ class VendorController extends Controller
             $vendor->price = $request->price;
             $vendor->address = $request->address;
             $vendor->total_guest = $request->total_guest;
+            $vendor->category_id = $category->id;
             $vendor->save();
         } else {
             $vendor =  new Vendor();
             $vendor->name = $request->name;
             $vendor->description = $request->description;
             $vendor->price = $request->price;
+            $vendor->category_id = $category->id;
             $vendor->save();
         }
 
