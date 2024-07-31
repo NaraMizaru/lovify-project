@@ -30,15 +30,8 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = $request->fullname;
         $user->number_phone = $request->fullname;
-    
-        if ($request->hasFile('profile_image'))
-        {
-            $image = $request->file('profile_image');
-            $path = $image->store('profile_image' . $request->username, 'public');
-            $user->profile_image = $path;
-        }    
-
         $user->save();
+
         Auth::login($user);
         return redirect()->route('home');
     }
