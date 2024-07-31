@@ -2,7 +2,7 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('components/css/register.css') }}">
 @endpush
-@section('title, Register')
+@section('title', 'Register')
 @section('content')
 <div class="container">
     <div class="card">

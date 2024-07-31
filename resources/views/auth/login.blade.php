@@ -2,7 +2,7 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('components/css/login.css') }}">
 @endpush
-@section('title, Login')
+@section('title', 'Login')
 @section('content')
 <div class="container">
 <div class="card">
@@ -22,7 +22,7 @@
                 <input type="password" required>
                 <label>Password</label>
             </div>
-           
+
             <button type="submit" class="btn">Login</button>
             <div class="login-register">
                 <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
