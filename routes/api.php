@@ -28,5 +28,10 @@ Route::prefix('/v1/auth')->group(function() {
 Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
+    Route::get('/vendors', [VendorController::class, 'getVendors']);
+    Route::get('/vendor/{type}', [VendorController::class, 'getVendorByCategory']);
     Route::post('/vendor/create/{type}', [VendorController::class, 'createVendor']);
+    Route::get('/vendor/{id}/detail/{type}', [VendorController::class, 'detailVendor']);
+    Route::post('/vendor/{id}/edit/{type}', [VendorController::class, 'updateVendor']);
+    Route::delete('/vendor/{id}/delete/{type}', [VendorController::class, 'deleteVendor']);
 });

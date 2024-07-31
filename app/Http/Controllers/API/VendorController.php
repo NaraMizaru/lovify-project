@@ -40,7 +40,8 @@ class VendorController extends Controller
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return response()->json([
-                'message' => $validator->errors()
+                'message' => 'Invalid fields',
+                'errors' => $validator->errors()
             ], 422);
         }
 
@@ -77,5 +78,156 @@ class VendorController extends Controller
                 'message' => 'Vendor created successfully',
             ], 201);
         }
+    }
+
+    public function updateVendor(Request $request, $id, $type)
+    {
+        $category = Category::where('name', $type)->first();
+
+        if (!$category) {
+            return response()->json([
+                'message' => 'Not Found'
+            ], 404);
+        }
+
+        $vendor = Vendor::find($id);
+
+        if (!$vendor) {
+            return response()->json([
+                'message' => 'Vendor not found'
+            ], 404);
+        }
+
+        if ($category->id !== $vendor->category_id) {
+            return response()->json([
+                'message' => 'Vendor type does not match the category'
+            ], 400);
+        }
+
+        $rules = [
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'price' => 'required|integer',
+            'fee' => 'required|integer',
+            'bank_number' => 'required|string',
+            'number_phone' => 'required|string',
+        ];
+
+        if ($type === 'venue') {
+            $rules['total_guest'] = 'required|integer';
+            $rules['address'] = 'required|string';
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Invalid fields',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $vendor->name = $request->name;
+        $vendor->description = $request->description;
+        $vendor->price = $request->price;
+        $vendor->fee = $request->fee;
+        $vendor->total_price = $request->price + $request->fee;
+        $vendor->bank_number = $request->bank_number;
+        $vendor->number_phone = $request->number_phone;
+        if ($type == 'venue') {
+            $vendor->address = $request->address;
+            $vendor->total_guest = $request->total_guest;
+        }
+        $vendor->save();
+        return response()->json([
+            'message' => 'Vendor updated successfully',
+        ], 200);
+    }
+
+    public function deleteVendor($id, $type)
+    {
+        $category = Category::where('name', $type)->first();
+
+        if (!$category) {
+            return response()->json([
+                'message' => 'Not Found'
+            ], 404);
+        }
+
+        $vendor = Vendor::find($id);
+
+        if (!$vendor) {
+            return response()->json([
+                'message' => 'Vendor not found'
+            ], 404);
+        }
+
+        if ($category->id !== $vendor->category_id) {
+            return response()->json([
+                'message' => 'Vendor type does not match the category'
+            ], 400);
+        }
+
+        $vendor->delete();
+        return response()->json([
+            'message' => 'Vendor deleted successfully',
+        ], 200);
+    }
+
+    public function detailVendor($id, $type)
+    {
+        $category = Category::where('name', $type)->first();
+
+        if (!$category) {
+            return response()->json([
+                'message' => 'Not Found'
+            ], 404);
+        }
+
+        $vendor = Vendor::find($id);
+
+        if (!$vendor) {
+            return response()->json([
+                'message' => 'Vendor not found'
+            ], 404);
+        }
+
+        if ($category->id !== $vendor->category_id) {
+            return response()->json([
+                'message' => 'Vendor type does not match the category'
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'Get detail vendor',
+            'vendor' => $vendor->with('vendorAttachment')->first()
+        ], 200);
+    }
+
+    public function getVendorByCategory($type)
+    {
+        $category = Category::where('name', $type)->first();
+
+        if (!$category) {
+            return response()->json([
+                'message' => 'Not Found'
+            ], 404);
+        }
+
+        $vendor = Vendor::where('category_id', $category->id)->with('vendorAttachment')->get();
+
+        return response()->json([
+            'message' => 'Get vendors by category',
+            'data' => $vendor
+        ], 200);
+    }
+
+    public function getVendors()
+    {
+        $vendor = Vendor::with('vendorAttachment')->get();
+
+        return response()->json([
+            'message' => 'Get vendors',
+            'data' => $vendor
+        ], 200);
     }
 }
