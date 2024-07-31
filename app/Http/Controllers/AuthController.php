@@ -17,7 +17,7 @@ class AuthController extends Controller
             'email' => ['required','string','email','max:255', 'unique:users,email'],
             'password' => ['required','string','min:8','confirmed'],
             'number_phone' => ['required','string'],
-            'profile_image' => ['required', 'file', 'image', 'mimes:jpg, png, jpeg'],
+            'profile_image' => ['file', 'image', 'mimes:jpg, png, jpeg'],
         ]);
 
         if ($credential->fails())
