@@ -3,35 +3,51 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class VendorController extends Controller
 {
-    public function createVendor(Request $request)
+    public function createVendor(Request $request, $type)
     {
-        $type = $request->query('type');
-
         if (!$type) {
-            return response()->json(['message' => 'Type is required'], 422);
+            return response()->json([
+                'message' => 'Not Found'
+            ], 404);
         }
 
-        $mimeType = [
-            'mua',
-            'category',
-            'description',
-        ];
-
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'name' => 'required|string',
             'description' => 'required|string',
             'address' => 'required|string',
-            'fee'
-        ]);
+            'price' => 'required|integer',
+            'fee' => 'required|integer',
+            'total_price' => 'required|integer'
+        ];
 
         if ($type === 'venue') {
+            $rules['total_guest'] = 'required|integer';
+            $rules['address'] = 'required|string';
         }
 
-        
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()
+            ], 422);
+        }
+
+        $category = Category::where('name', $type)->first();
+
+        $vendor = new Vendor();
+        $vendor->name = $request->name;
+        $vendor->description = $request->description;
+        $vendor->address = $request->address;
+        $vendor->price = $request->price;
+        $vendor->fee = $request->fee;
+        $vendor->total_price = $request->price + $request->fee;
+        // $vendor->category_id = ;
     }
 }

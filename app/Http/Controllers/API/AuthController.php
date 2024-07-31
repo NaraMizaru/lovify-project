@@ -49,8 +49,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'login' => 'required',
-            'password' => 'required|string|min:8|confirmed',
+            'credentials' => 'required',
+            'password' => 'required|string|min:8',
         ]);
 
         if ($validator->fails()) {
@@ -60,10 +60,10 @@ class AuthController extends Controller
             ], 400);
         }
 
-        $login = $request->login;
-        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $credentials = $request->credentials;
+        $fieldType = filter_var($credentials, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        $auth = Auth::attempt([$fieldType => $login, 'password' => $request->password]);
+        $auth = Auth::attempt([$fieldType => $credentials, 'password' => $request->password]);
         if ($auth) {
             $token = $request->user()->createToken('api_token')->plainTextToken;
 
