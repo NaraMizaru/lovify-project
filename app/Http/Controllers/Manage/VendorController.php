@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\VendorAttachment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,43 +17,57 @@ class VendorController extends Controller
     {
         $category = Category::find($id);
 
-        if ($category->name == 'venue') {
-            $credential = Validator::make($request->all(), [
-                'name' => ['required','string'],
-                'description' => ['required','string'],
-                'price' => ['required','integer'],
-                'address' => ['required','string'],
-                'total_guest' => ['required','integer'],
-            ]);
-        } else {
-            $credential = Validator::make($request->all(), [
-                'name' => ['required','string'],
-                'description' => ['required','string'],
-                'price' => ['required','integer'],
-            ]);
-        }
-
-        if ($credential->fails()) {
-            return redirect()->back()->withErrors($credential->errors())->withInput($request->all());
-        }
+        $credential = [
+            'name' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'integer'],
+            'fee' => ['required', 'integer'],
+            'bank_number' => ['required', 'string'],
+            'number_phone' => ['required', 'string'],
+            'attachments.*' => ['required', 'file', 'mimes:png,jpg,jpeg']
+        ];
 
         if ($category->name == 'venue') {
-            $vendor =  new Vendor();
-            $vendor->name = $request->name;
-            $vendor->description = $request->description;
-            $vendor->price = $request->price;
-            $vendor->address = $request->address;
+            $credential['total_guest'] = ['required', 'integer'];
+            $credential['address'] = ['required', 'string'];
+        }
+
+        $validator = Validator::make($request->all(), $credential);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        $vendor = new Vendor();
+        $vendor->name = $request->name;
+        $vendor->description = $request->description;
+        $vendor->price = $request->price;
+        $vendor->fee = $request->fee;
+        $vendor->bank_number = $request->bank_number;
+        $vendor->number_phone = $request->number_phone;
+        $vendor->total_price = $request->fee + $request->price;
+        $vendor->category_id = $category->id;
+
+        if ($category->name == 'venue') {
             $vendor->total_guest = $request->total_guest;
-            $vendor->category_id = $category->id;
-            $vendor->save();
-        } else {
-            $vendor =  new Vendor();
-            $vendor->name = $request->name;
-            $vendor->description = $request->description;
-            $vendor->price = $request->price;
-            $vendor->category_id = $category->id;
-            $vendor->save();
+            $vendor->address = $request->address;
         }
+
+        $images = $request->file('attachments');
+        foreach ($images as $image) {
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $path = $image->store('vendor/' . $category->name . '/' . $vendor->name . '/' . $imageName, 'public');
+
+            $vendorAttachment = new VendorAttachment();
+            $vendorAttachment->image_path = $path;
+
+            if (!$vendor->exists) {
+                $vendor->save();
+            }
+
+            $vendorAttachment->vendor_id = $vendor->id;
+            $vendorAttachment->save();
+        }
+
 
         return redirect()->route('');
     }
@@ -61,41 +76,39 @@ class VendorController extends Controller
     {
         $vendor = Vendor::find($id);
         $category = Category::find($vendor->category_id);
+        $credential = [
+            'name' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'integer'],
+            'fee' => ['required', 'integer'],
+            'bank_number' => ['required', 'string'],
+            'number_phone' => ['required', 'string'],
+        ];
 
         if ($category->name == 'venue') {
-            $credential = Validator::make($request->all(), [
-                'name' => ['required','string'],
-                'description' => ['required','string'],
-                'price' => ['required','integer'],
-                'address' => ['required','string'],
-                'total_guest' => ['required','integer'],
-            ]);
-        } else {
-            $credential = Validator::make($request->all(), [
-                'name' => ['required','string'],
-                'description' => ['required','string'],
-                'price' => ['required','integer'],
-            ]);
+            $credential['total_guest'] = ['required', 'integer'];
+            $credential['address'] = ['required', 'string'];
         }
 
-        if ($credential->fails()) {
-            return redirect()->back()->withErrors($credential->errors())->withInput($request->all());
+        $validator = Validator::make($request->all(), $credential);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
         }
+
+        $vendor->name = $request->name;
+        $vendor->description = $request->description;
+        $vendor->price = $request->price;
+        $vendor->fee = $request->fee;
+        $vendor->bank_number = $request->bank_number;
+        $vendor->number_phone = $request->number_phone;
+        $vendor->total_price = $request->fee + $request->price;
+
         if ($category->name == 'venue') {
-            $vendor->name = $request->name;
-            $vendor->description = $request->description;
-            $vendor->price = $request->price;
-            $vendor->address = $request->address;
-            $vendor->total_guest = $request->total_guest;
-            $vendor->category_id = $category->id;
-            $vendor->save();
-        } else {
-            $vendor->name = $request->name;
-            $vendor->description = $request->description;
-            $vendor->price = $request->price;
-            $vendor->category_id = $category->id;
-            $vendor->save();
+            $vendor->total_guest = ['required', 'integer'];
+            $vendor->address = ['required', 'string'];
         }
+
+        $vendor->save();
 
         return redirect()->route('');
     }
@@ -105,5 +118,22 @@ class VendorController extends Controller
         $vendor = Vendor::find($id);
         $vendor->delete();
         return redirect()->route('');
+    }
+
+    public function getAllVendors()
+    {
+        $vendors = Vendor::all();
+        return view('', compact('vendors'));
+    }
+
+    public function getVendorsByCategory(Category $category)
+    {
+        $vendors = Vendor::where('category_id', $category->id)->get();
+        return view('', compact('vendors'));
+    }
+
+    public function detailVendor(Vendor $vendor)
+    {
+        return view('', compact('vendor'));
     }
 }
