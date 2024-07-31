@@ -8,4 +8,63 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     use HasFactory;
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function venuePackets()
+    {
+        return $this->hasMany(Packet::class, 'venue_id');
+    }
+
+    public function cateringPackets()
+    {
+        return $this->hasMany(Packet::class, 'catering_id');
+    }
+
+    public function decorationPackets()
+    {
+        return $this->hasMany(Packet::class, 'decoration_id');
+    }
+
+    public function photogtapherPackets()
+    {
+        return $this->hasMany(Packet::class, 'photogtapher_id');
+    }
+
+    public function muaPackets()
+    {
+        return $this->hasMany(Packet::class, 'mua_id');
+    }
+
+    public function venuePacketsCustom()
+    {
+        return $this->hasMany(Packet::class, 'venue_id');
+    }
+
+    public function cateringPacketsCustom()
+    {
+        return $this->hasMany(Packet::class, 'catering_id');
+    }
+
+    public function decorationPacketsCustom()
+    {
+        return $this->hasMany(Packet::class, 'decoration_id');
+    }
+
+    public function photogtapherPacketsCustom()
+    {
+        return $this->hasMany(Packet::class, 'photogtapher_id');
+    }
+
+    public function muaPacketsCustom()
+    {
+        return $this->hasMany(Packet::class, 'mua_id');
+    }
+
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

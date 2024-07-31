@@ -37,4 +37,9 @@ class Packet extends Model
     {
         return $this->belongsTo(Vendor::class, 'mua_id');
     }
+
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }
