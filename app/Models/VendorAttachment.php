@@ -12,4 +12,6 @@ class VendorAttachment extends Model
     {
         return $this->belongsTo(Vendor::class);
     }
+
+    public $timestamps = false;
 }
