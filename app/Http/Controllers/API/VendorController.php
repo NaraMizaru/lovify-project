@@ -17,6 +17,8 @@ class VendorController extends Controller
                 'message' => 'Not Found'
             ], 404);
         }
+        $category = Category::where('name', $type)->first();
+        dd($category);
 
         $rules = [
             'name' => 'required|string',
@@ -24,7 +26,9 @@ class VendorController extends Controller
             'address' => 'required|string',
             'price' => 'required|integer',
             'fee' => 'required|integer',
-            'total_price' => 'required|integer'
+            'total_price' => 'required|integer',
+            'bank_number' => 'required|string',
+            'number_phone' => 'required|string',
         ];
 
         if ($type === 'venue') {
@@ -39,7 +43,6 @@ class VendorController extends Controller
             ], 422);
         }
 
-        $category = Category::where('name', $type)->first();
 
         $vendor = new Vendor();
         $vendor->name = $request->name;
