@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Guest extends Model
 {
     use HasFactory;
+
+    public function weddding()
+    {
+        return $this->belongsTo(Wedding::class);
+    }
 }

@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Packet extends Model
 {
     use HasFactory;
+    public function wedding()
+    {
+        return $this->hasMany(Wedding::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }
