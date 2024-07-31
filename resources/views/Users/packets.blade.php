@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('css')
-    <link rel="stylesheet" href="{{ asset('components/css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('components/css/packets.css') }}">
 @endpush
 @section('title', 'Lovify')
 

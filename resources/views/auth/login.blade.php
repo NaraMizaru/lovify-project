@@ -25,7 +25,7 @@
 
             <button type="submit" class="btn">Login</button>
             <div class="login-register">
-                <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                <p>Don't have an account? <a href="{{route('register')}}" class="register-link">Register</a></p>
             </div>
         </div>
     </div>
