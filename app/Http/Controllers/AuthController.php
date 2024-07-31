@@ -13,7 +13,7 @@ class AuthController extends Controller
     {
         $credential = Validator::make($request->all(), [
             'fullname' => ['required', 'string'],
-            'username' => ['required', 'string', 'min:2', 'max:12'],
+            'username' => ['required', 'string', 'min:2', 'max:12', 'unique:users,username'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'number_phone' => ['required', 'string'],
@@ -27,8 +27,8 @@ class AuthController extends Controller
         $user->fullname = $request->fullname;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->password = $request->fullname;
-        $user->number_phone = $request->fullname;
+        $user->password = $request->password;
+        $user->number_phone = $request->number_phone;
         $user->save();
 
         Auth::login($user);

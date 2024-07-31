@@ -2,7 +2,8 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('components/css/login.css') }}">
 @endpush
-@section('title, Login')
+
+@section('title', 'Login')
 @section('content')
 <div class="container">
 <div class="card">
@@ -14,18 +15,18 @@
             <h2>Login</h2>
             <div class="input-box">
                 <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                <input type="text" required>
+                <input type="text" required name="login">
                 <label>Username/Email</label>
             </div>
             <div class="input-box">
                 <span class="icon"><i class="fa-solid fa-lock"></i></span>
-                <input type="password" required>
+                <input type="password" required name="password">
                 <label>Password</label>
             </div>
            
             <button type="submit" class="btn">Login</button>
             <div class="login-register">
-                <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                <p>Don't have an account? <a href="{{ route('register') }}" class="register-link">Register</a></p>
             </div>
         </div>
     </div>

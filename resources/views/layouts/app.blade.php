@@ -13,6 +13,7 @@
 
 <body>
     @include('Template.Nav')
+    @yield('content')
 </body>
 
 </html>
