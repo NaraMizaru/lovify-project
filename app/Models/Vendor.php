@@ -28,9 +28,9 @@ class Vendor extends Model
         return $this->hasMany(Packet::class, 'decoration_id');
     }
 
-    public function photogtapherPackets()
+    public function photographerPackets()
     {
-        return $this->hasMany(Packet::class, 'photogtapher_id');
+        return $this->hasMany(Packet::class, 'photographer_id');
     }
 
     public function muaPackets()
@@ -53,9 +53,9 @@ class Vendor extends Model
         return $this->hasMany(Packet::class, 'decoration_id');
     }
 
-    public function photogtapherPacketsCustom()
+    public function photographerPacketsCustom()
     {
-        return $this->hasMany(Packet::class, 'photogtapher_id');
+        return $this->hasMany(Packet::class, 'photographer_id');
     }
 
     public function muaPacketsCustom()
