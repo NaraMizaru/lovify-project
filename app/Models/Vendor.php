@@ -67,4 +67,9 @@ class Vendor extends Model
     {
         return $this->hasMany(Rating::class);
     }
+
+    public function vendorAttachment()
+    {
+        return $this->hasMany(VendorAttachment::class);
+    }
 }
