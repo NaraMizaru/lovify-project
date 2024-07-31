@@ -12,4 +12,6 @@ class Category extends Model
     {
         return $this->hasMany(Vendor::class);
     }
+
+    public $timestamps = false;
 }
