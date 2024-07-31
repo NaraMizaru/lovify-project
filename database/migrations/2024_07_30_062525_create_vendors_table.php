@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('total_price');
             $table->text('address')->nullable();
             $table->integer('total_guest')->nullable();
+            $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
