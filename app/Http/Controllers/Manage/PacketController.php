@@ -85,6 +85,11 @@ class PacketController extends Controller
         return redirect()->route('');
     }
 
+    public function detailPacket(Packet $packet)
+    {
+        return view('', compact('packet'));
+    }
+
     public function allPackets()
     {
         $packets = Packet::all();
