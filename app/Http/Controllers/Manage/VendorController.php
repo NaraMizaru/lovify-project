@@ -30,6 +30,8 @@ class VendorController extends Controller
         if ($category->name == 'venue') {
             $credential['total_guest'] = ['required', 'integer'];
             $credential['address'] = ['required', 'string'];
+        } else if ($category->name == 'catering') {
+            $credential['qty'] = ['required', 'integer'];
         }
 
         $validator = Validator::make($request->all(), $credential);
@@ -44,12 +46,19 @@ class VendorController extends Controller
         $vendor->fee = $request->fee;
         $vendor->bank_number = $request->bank_number;
         $vendor->number_phone = $request->number_phone;
-        $vendor->total_price = $request->fee + $request->price;
         $vendor->category_id = $category->id;
+
+        if ($category->name == 'catering') {
+            $vendor->total_price = ($request->price + $request->fee) * $request->qty;
+        } else {
+            $vendor->total_price = $request->fee + $request->price;
+        }
 
         if ($category->name == 'venue') {
             $vendor->total_guest = $request->total_guest;
             $vendor->address = $request->address;
+        } else if ($category->name == 'catering') {
+            $vendor->qty = $request->qty;
         }
 
         $images = $request->file('attachments');
@@ -88,6 +97,8 @@ class VendorController extends Controller
         if ($category->name == 'venue') {
             $credential['total_guest'] = ['required', 'integer'];
             $credential['address'] = ['required', 'string'];
+        } else if ($category->name == 'catering') {
+            $credential['qty'] = ['required', 'integer'];
         }
 
         $validator = Validator::make($request->all(), $credential);
@@ -104,8 +115,10 @@ class VendorController extends Controller
         $vendor->total_price = $request->fee + $request->price;
 
         if ($category->name == 'venue') {
-            $vendor->total_guest = ['required', 'integer'];
-            $vendor->address = ['required', 'string'];
+            $vendor->total_guest = $request->total_guest;
+            $vendor->address = $request->address;
+        } else if ($category->name == 'catering') {
+            $vendor->qty = $request->qty;
         }
 
         $vendor->save();
