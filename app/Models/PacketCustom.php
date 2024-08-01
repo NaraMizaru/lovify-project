@@ -29,7 +29,7 @@ class PacketCustom extends Model
     }
 
     public function photographer()
-    {
+{
         return $this->belongsTo(Vendor::class, 'photographer_id');
     }
 

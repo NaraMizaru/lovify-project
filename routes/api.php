@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\PacketController;
 use App\Http\Controllers\API\VendorController;
+use App\Http\Controllers\API\WeddingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,12 @@ Route::prefix('/v1/auth')->group(function() {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
+Route::prefix('v1')->group(function() {
+    Route::get('/packets', [PacketController::class, 'getPackets']);
+    Route::get('/detail/{id}/packet', [PacketController::class, 'getDetailPacket']);
+
+});
+
 Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
@@ -34,4 +42,16 @@ Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
     Route::get('/vendor/{id}/detail/{type}', [VendorController::class, 'detailVendor']);
     Route::post('/vendor/{id}/edit/{type}', [VendorController::class, 'updateVendor']);
     Route::delete('/vendor/{id}/delete/{type}', [VendorController::class, 'deleteVendor']);
+
+    Route::get('weddings', [WeddingController::class, 'getWeddings']);
+    Route::get('wedding/{type}', [WeddingController::class, 'getWeddingByCategory']);
+    Route::get('wedding/{id}/detail', [WeddingController::class, 'getDetailWedding']);
+    Route::post('create/wedding/{type}', [WeddingController::class, 'createWedding']);
+    Route::post('update/{id}/wedding/{type}', [WeddingController::class, 'updateWedding']);
+    
+
+    Route::prefix('admin')->group(function() {
+        Route::post('/create/packet', [PacketController::class, 'createPacket']);
+        Route::delete('/delete/{id}/packet', [PacketController::class, 'deletePacket']);
+    });
 });

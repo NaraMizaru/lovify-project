@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Packet extends Model
 {
     use HasFactory;
+    protected $hidden = [
+        'venue_id',
+        'decoration_id',
+        'catering_id',
+        'photographer_id',
+        'mua_id',
+        'created_at',
+        'updated_at',
+    ];
     public function wedding()
     {
         return $this->hasMany(Wedding::class);

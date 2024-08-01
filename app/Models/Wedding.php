@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Wedding extends Model
 {
     use HasFactory;
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'packet_id',
+        'packet_custom_id',
+    ];
+
     public function packet()
     {
         return $this->belongsTo(Packet::class);

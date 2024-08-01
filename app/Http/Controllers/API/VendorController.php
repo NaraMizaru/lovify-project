@@ -34,6 +34,8 @@ class VendorController extends Controller
         if ($type === 'venue') {
             $rules['total_guest'] = 'required|integer';
             $rules['address'] = 'required|string';
+        } else if ($type === 'catering') {
+            $rules['qty'] = 'required|integer';
         }
 
 
@@ -50,12 +52,17 @@ class VendorController extends Controller
         $vendor->description = $request->description;
         $vendor->price = $request->price;
         $vendor->fee = $request->fee;
-        $vendor->total_price = $request->price + $request->fee;
+        if ($type !== 'catering') {
+            $vendor->total_price = $request->price + $request->fee;
+        }
         $vendor->bank_number = $request->bank_number;
         $vendor->number_phone = $request->number_phone;
         if ($type == 'venue') {
             $vendor->address = $request->address;
             $vendor->total_guest = $request->total_guest;
+        } else if ($type === 'catering') {
+            $vendor->qty = $request->qty;
+            $vendor->total_price = ($request->price + $request->fee) * $request->qty;
         }
         $vendor->category_id = $category->id;
 
@@ -116,6 +123,8 @@ class VendorController extends Controller
         if ($type === 'venue') {
             $rules['total_guest'] = 'required|integer';
             $rules['address'] = 'required|string';
+        } else if ($type === 'catering') {
+            $rules['qty'] = 'required|integer';
         }
 
         $validator = Validator::make($request->all(), $rules);
@@ -136,6 +145,8 @@ class VendorController extends Controller
         if ($type == 'venue') {
             $vendor->address = $request->address;
             $vendor->total_guest = $request->total_guest;
+        } else if ($type === 'catering') {
+            $vendor->qty = $request->qty;
         }
         $vendor->save();
         return response()->json([
