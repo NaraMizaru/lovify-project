@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Packet;
 use App\Models\PacketCustom;
+use App\Models\Task;
 use App\Models\Vendor;
 use App\Models\Wedding;
 use Illuminate\Http\Request;
@@ -91,9 +92,26 @@ class WeddingController extends Controller
         $wedding->user_id = $user->id;
         $wedding->save();
 
-        return response()->json([
-            'message' => 'Wedding created successfully'
-        ], 201);
+        if ($wedding->save()) {
+            $taskNames = [
+                'venue',
+                'catering',
+                'decoration',
+                'photographer',
+                'mua'
+            ];
+
+            foreach ($taskNames as $taskName) {
+                $task = new Task();
+                $task->wedding_id = $wedding->id;
+                $task->name = $taskName;
+                $task->save();
+            }
+
+            return response()->json([
+                'message' => 'Wedding created successfully'
+            ], 201);
+        }
     }
 
     public function updateWedding(Request $request, $id, $type)
