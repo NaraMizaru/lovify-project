@@ -16,22 +16,53 @@ class PacketController extends Controller
             'name' => ['string', 'required'],
             'price' => ['integer', 'required'],
             'description' => ['string', 'required'],
+            'venue_id' => ['nullable'],
+            'catering_id' => ['nullable'],
+            'decoration_id' => ['nullable'],
+            'photographer_id' => ['nullable'],
+            'mua_id' => ['nullable'],
         ];
-        
+
         $validator = Validator::make($request->all(), $credential);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
         }
 
-        $venue = Vendor::find($request->venue_id);
-        $catering = Vendor::find($request->catering_id);
-        $decoration = Vendor::find($request->decoration_id);
-        $photographer = Vendor::find($request->photographer_id);
-        $mua = Vendor::find($request->mua_id);
+        $price = 0;
 
-        $price = $venue->total_price + $catering->total_price + $decoration->total_price + $photographer->total_price + $mua->total_price;
+        if ($request->filled('venue_id')) {
+            $venue = Vendor::find($request->venue_id);
+            if ($venue) {
+                $price += $venue->total_price;
+            }
+        }
+        if ($request->filled('catering_id')) {
+            $catering = Vendor::find($request->catering_id);
+            if ($catering) {
+                $price += $catering->total_price;
+            }
+        }
+        if ($request->filled('decoration_id')) {
+            $decoration = Vendor::find($request->decoration_id);
+            if ($decoration) {
+                $price += $decoration->total_price;
+            }
+        }
+        if ($request->filled('photographer_id')) {
+            $photographer = Vendor::find($request->photographer_id);
+            if ($photographer) {
+                $price += $photographer->total_price;
+            }
+        }
+        if ($request->filled('mua_id')) {
+            $mua = Vendor::find($request->mua_id);
+            if ($mua) {
+                $price += $mua->total_price;
+            }
+        }
+
         $discount = $price * 0.05;
-        $totalPrice = $price + $discount;
+        $totalPrice = $price - $discount;
 
         $packet = new Packet();
         $packet->name = $request->name;
@@ -43,6 +74,20 @@ class PacketController extends Controller
         $packet->photographer_id = $request->photographer_id;
         $packet->mua_id = $request->mua_id;
 
+        $packet->save();
+
         return redirect()->route('');
+    }
+
+    public function deletePacket(Packet $packet)
+    {
+        $packet->delete();
+        return redirect()->route('');
+    }
+
+    public function allPackets()
+    {
+        $packets = Packet::all();
+        return view('', compact('packets'));
     }
 }
