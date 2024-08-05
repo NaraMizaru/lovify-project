@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Models\Category;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('Users.home');
+    $vendors = Vendor::all();
+    $categories = Category::all();
+    return view('Users.home', compact('vendors', 'categories'));
 })->name('home');
 
 Route::get('/login', function () {

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -58,6 +59,48 @@ class DatabaseSeeder extends Seeder
 
         Category::create([
             'name' => 'photographer'
+        ]);
+
+        Vendor::create([
+            'name' => 'Vendor Random',
+            'description' => 'Deskripsi Vendor Random',
+            'price' => 1000000,
+            'fee' => 50000,
+            'total_price' => 1050000,
+            'address' => 'Alamat Vendor Random',
+            'total_guest' => 50,
+            'qty' => 10,
+            'number_phone' => '081234567890',
+            'bank_number' => '1234567890',
+            'category_id' => 1,
+        ]);
+
+        Vendor::create([
+            'name' => 'Vendor Random',
+            'description' => 'Deskripsi Vendor Random',
+            'price' => 1000000,
+            'fee' => 50000,
+            'total_price' => 1050000,
+            'address' => 'Alamat Vendor Random',
+            'total_guest' => 50,
+            'qty' => 10,
+            'number_phone' => '081234567890',
+            'bank_number' => '1234567890',
+            'category_id' => 1,
+        ]);
+        
+        Vendor::create([
+            'name' => 'Vendor Random',
+            'description' => 'Deskripsi Vendor Random',
+            'price' => 1000000,
+            'fee' => 50000,
+            'total_price' => 1050000,
+            'address' => 'Alamat Vendor Random',
+            'total_guest' => 50,
+            'qty' => 10,
+            'number_phone' => '081234567890',
+            'bank_number' => '1234567890',
+            'category_id' => 1,
         ]);
     }
 }
