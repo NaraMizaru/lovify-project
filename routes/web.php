@@ -29,6 +29,8 @@ Route::get('landingpage', function (){
 Route::get('packets', function (){
     return view('Users.packets');
 })->name('packets');
-
+Route::get('profile', function (){
+    return view('Users.profile');
+})->name('profile');
 Route::post('/login', [AuthController::class,'login'])->name('post.login');
 Route::post('/register', [AuthController::class,'register'])->name('post.register');
