@@ -2,14 +2,14 @@
     <div class="navigation">
         <ul>
             <li>
-                <a href="#">
+                <a href="{{ route('home') }}">
                     <img src="{{asset('components/assets/L.png')}}" alt="" class="icon">
                     <span class="title">Lovify</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('home') }}">
                     <span class="icon"><i class="fa-solid fa-house"></i></span>
                     <span class="title">Dashboard</span>
                 </a>
@@ -23,21 +23,21 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('wedding') }}">
                     <span class="icon"><i class="fa-duotone fa-solid fa-rings-wedding"></i></span>
                     <span class="title">Weddings</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('transaction') }}">
                     <span class="icon"><i class="fa-solid fa-money-from-bracket"></i></span>
                     <span class="title">Transaction</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('history') }}">
                     <span class="icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
                     <span class="title">History</span>
                 </a>
