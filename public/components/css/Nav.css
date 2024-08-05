@@ -1,0 +1,23 @@
+nav{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    padding-top: 30px;
+}
+h2{
+    color: white;
+}
+.content, .account{
+    display: flex;
+    gap: 10px;
+}
+.content a, .account a{
+    display: flex;
+    margin-top: 5px;
+    color: white;
+    text-decoration: none;
+}
+.content a:hover,
+.account a:hover{
+    text-decoration: underline;
+}
