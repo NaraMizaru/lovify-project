@@ -7,10 +7,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Vendor;
-<<<<<<< HEAD
 use App\Models\VendorAttachment;
-=======
->>>>>>> b4bfa8d76741fa327e4bcb89dfdc2b5fc398c1d1
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -65,7 +62,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'photographer'
         ]);
 
-<<<<<<< HEAD
         for ($i = 1; $i <= 6; $i++) {
             $price = rand(1000000, 5000000);
             $fee = 0.02 * $price;
@@ -227,7 +223,7 @@ class DatabaseSeeder extends Seeder
                 'image_path' => "seeder/vendor/photographer/image-" . ($i + 6) . ".jpg",
             ]);
         }
-=======
+
         Vendor::create([
             'name' => 'Vendor Random',
             'description' => 'Deskripsi Vendor Random',
@@ -255,7 +251,7 @@ class DatabaseSeeder extends Seeder
             'bank_number' => '1234567890',
             'category_id' => 1,
         ]);
-        
+
         Vendor::create([
             'name' => 'Vendor Random',
             'description' => 'Deskripsi Vendor Random',
@@ -269,6 +265,5 @@ class DatabaseSeeder extends Seeder
             'bank_number' => '1234567890',
             'category_id' => 1,
         ]);
->>>>>>> b4bfa8d76741fa327e4bcb89dfdc2b5fc398c1d1
     }
 }
