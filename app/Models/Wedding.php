@@ -24,4 +24,9 @@ class Wedding extends Model
     {
         return $this->belongsTo(PacketCustom::class);
     }
+
+    public function task()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

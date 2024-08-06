@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PacketController;
+use App\Http\Controllers\API\TaskController;
 use App\Http\Controllers\API\VendorController;
 use App\Http\Controllers\API\WeddingController;
 use Illuminate\Http\Request;
@@ -37,18 +38,21 @@ Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     Route::get('/vendors', [VendorController::class, 'getVendors']);
-    Route::get('/vendor/{type}', [VendorController::class, 'getVendorByCategory']);
+    Route::get('/vendors/{type}', [VendorController::class, 'getVendorByCategory']);
     Route::post('/vendor/create/{type}', [VendorController::class, 'createVendor']);
     Route::get('/vendor/{id}/detail/{type}', [VendorController::class, 'detailVendor']);
     Route::post('/vendor/{id}/edit/{type}', [VendorController::class, 'updateVendor']);
     Route::delete('/vendor/{id}/delete/{type}', [VendorController::class, 'deleteVendor']);
 
     Route::get('weddings', [WeddingController::class, 'getWeddings']);
-    Route::get('wedding/{type}', [WeddingController::class, 'getWeddingByCategory']);
+    Route::get('weddings/{type}', [WeddingController::class, 'getWeddingByCategory']);
     Route::get('wedding/{id}/detail', [WeddingController::class, 'getDetailWedding']);
     Route::post('create/wedding/{type}', [WeddingController::class, 'createWedding']);
     Route::post('update/{id}/wedding/{type}', [WeddingController::class, 'updateWedding']);
+    Route::delete('wedding/{id}/delete', [WeddingController::class, 'deleteWedding']);
     
+    Route::post('wedding/{id}/task/{taskName}/process', [TaskController::class, 'taskToProcess']);
+    Route::post('wedding/{id}/task/{taskName}/ready', [TaskController::class, 'taskToReady']);
 
     Route::prefix('admin')->group(function() {
         Route::post('/create/packet', [PacketController::class, 'createPacket']);

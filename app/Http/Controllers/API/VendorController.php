@@ -47,6 +47,13 @@ class VendorController extends Controller
             ], 422);
         }
 
+        $user = $request->user();
+        if ($user->role !== 'admin') {
+            return response()->json([
+                'message' => 'You are not allowed to create vendor'
+            ], 403);
+        }
+
         $vendor = new Vendor();
         $vendor->name = $request->name;
         $vendor->description = $request->description;
@@ -62,7 +69,7 @@ class VendorController extends Controller
             $vendor->total_guest = $request->total_guest;
         } else if ($type === 'catering') {
             $vendor->qty = $request->qty;
-            $vendor->total_price = ($request->price + $request->fee) * $request->qty;
+            $vendor->total_price = $request->price + $request->fee;
         }
         $vendor->category_id = $category->id;
 

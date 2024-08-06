@@ -218,6 +218,7 @@ class WeddingController extends Controller
             'packetCustom.catering.vendorAttachment',
             'packetCustom.photographer.vendorAttachment',
             'packetCustom.mua.vendorAttachment',
+            'task'
         ])->first();
 
         if (!$wedding) {
@@ -457,6 +458,34 @@ class WeddingController extends Controller
         return response()->json([
             'message' => 'Get wedding',
             'weddings' => $weddings
+        ], 200);
+    }
+
+    public function deleteWedding(Request $request, $id)
+    {
+        $wedding = Wedding::find($id);
+
+        if (!$wedding) {
+            return response()->json([
+                'message' => 'Wedding not found'
+            ], 404);
+        }
+
+        $user = $request->user();
+        if ($wedding->user_id !== $user->id) {
+            return response()->json([
+                'message' => 'Forbidden access'
+            ], 401);
+        }
+
+        if ($wedding->packet_custom_id !== NULL) {
+            $wedding->packetCustom->delete();
+        }
+
+        $wedding->delete();
+
+        return response()->json([
+            'message' => 'Wedding deleted successfully'
         ], 200);
     }
 }
