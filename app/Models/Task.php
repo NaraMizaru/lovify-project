@@ -10,4 +10,8 @@ class Task extends Model
     use HasFactory;
     public $timestamps = false;
 
+    public function wedding()
+    {
+        return $this->belongsTo(Wedding::class);
+    }
 }
