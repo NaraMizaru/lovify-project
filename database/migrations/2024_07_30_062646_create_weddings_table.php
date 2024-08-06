@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->integer('price');
+            $table->integer('dp_price');
             $table->foreignId('packet_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('packet_custom_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('date');
