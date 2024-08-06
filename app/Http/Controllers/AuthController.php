@@ -43,7 +43,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $check = Auth::attempt(['username' => $request->username, 'password' => $request->password]); 
+        $check = Auth::attempt(['username' => $request->username, 'password' => $request->password]);
         if ($check) {
             $user = Auth::user();
             if ($user->role == 'admin') return redirect()->route('homeAdmin');
