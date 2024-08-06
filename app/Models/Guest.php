@@ -13,4 +13,6 @@ class Guest extends Model
     {
         return $this->belongsTo(Wedding::class);
     }
+
+    public $timestamps = false;
 }

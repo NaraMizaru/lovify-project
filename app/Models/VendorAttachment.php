@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class VendorAttachment extends Model
 {
     use HasFactory;
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public $timestamps = false;
 }
