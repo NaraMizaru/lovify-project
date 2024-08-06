@@ -55,6 +55,7 @@ class WeddingController extends Controller
             }
             $wedding->packet_id = $request->packet_id;
             $wedding->price = $packet->price;
+            $wedding->dp_price = $packet->price * 0.15;
         } else if ($type === 'custom') {
             $venue = Vendor::where('id', $request->venue_id)->first();
             $catering = Vendor::where('id', $request->catering_id)->first();
@@ -70,12 +71,6 @@ class WeddingController extends Controller
 
             $totalPrice = $cateringPrice + $photographerPrice + $venuePrice + $muaPrice + $decorationPrice;
 
-            // if (!$venue || !$catering || !$decoration || !$photographer || !$mua) {
-            //     return response()->json([
-            //         'message' => 'Vendor not found'
-            //     ], 404);
-            // }
-
             $custom = new PacketCustom();
             $custom->venue_id = $request->venue_id;
             $custom->catering_id = $request->catering_id;
@@ -87,6 +82,7 @@ class WeddingController extends Controller
             if ($custom->save()) {
                 $wedding->packet_custom_id = $custom->id;
                 $wedding->price = $totalPrice;
+                $wedding->dp_price = $totalPrice * 0.15;
             }
         }
         $wedding->user_id = $user->id;
@@ -162,6 +158,7 @@ class WeddingController extends Controller
             }
             $wedding->packet_id = $request->packet_id;
             $wedding->price = $packet->price;
+            $wedding->dp_price = $packet->price * 0.15;
         } else if ($type === 'custom') {
             $venue = Vendor::where('id', $request->venue_id)->first();
             $catering = Vendor::where('id', $request->catering_id)->first();
@@ -196,6 +193,7 @@ class WeddingController extends Controller
 
             $wedding->packet_custom_id = $custom->id;
             $wedding->price = $totalPrice;
+            $wedding->dp_price = $totalPrice * 0.15;
         }
         $wedding->user_id = $user->id;
         $wedding->save();
