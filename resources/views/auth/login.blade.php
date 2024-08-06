@@ -8,18 +8,17 @@
 <div class="card">
 <form action="{{route('post.login')}}" method="POST">
     @csrf
-
     <div class="wrapper">
         <div class="form-box login">
             <h2>Login</h2>
             <div class="input-box">
                 <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                <input type="text" required>
+                <input type="text" name="login" required>
                 <label>Username/Email</label>
             </div>
             <div class="input-box">
                 <span class="icon"><i class="fa-solid fa-lock"></i></span>
-                <input type="password" required>
+                <input type="password" name="password" required>
                 <label>Password</label>
             </div>
 

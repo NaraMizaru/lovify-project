@@ -110,16 +110,16 @@ class WeddingController extends Controller
         $wedding->name = $request->name;        $wedding->price = $request->price;
         $wedding->date = $request->date;
 
-        if ($type == 'packet') {
+        if ($type == 'Packet') {
             $packet = Packet::find($request->packet_id);
             $wedding->packet_id = $packet->id;
             $wedding->price = $packet->price;
-        } else if ($type == 'custom') {
-            $venue = Vendor::find($request->venue_id)->first();
-            $catering = Vendor::find($request->catering_id)->first();
-            $decoration = Vendor::find($request->decoration_id)->first();
-            $mua = Vendor::find($request->mua_id)->first();
-            $photographer = Vendor::find($request->photographer_id)->first();
+        } else if ($type == 'Custom') {
+            $venue = Vendor::find($request->venue_id)->first() ?? null;
+            $catering = Vendor::find($request->catering_id)->first() ?? null;;
+            $decoration = Vendor::find($request->decoration_id)->first() ?? null;;
+            $mua = Vendor::find($request->mua_id)->first() ?? null;
+            $photographer = Vendor::find($request->photographer_id)->first() ?? null;;
 
             $venuePrice = $venue->total_price ?? 0;
             $decorationPrice = $decoration->total_price ?? 0;
@@ -128,6 +128,7 @@ class WeddingController extends Controller
             $cateringPrice = $catering->total_price ?? 0;
 
             $totalPrice = $venuePrice + $decorationPrice + $muaPrice + $photographerPrice + $cateringPrice;
+            dd($totalPrice);
 
             $custom = new PacketCustom();
             $custom->venue_id = $request->venue_id;
@@ -136,14 +137,17 @@ class WeddingController extends Controller
             $custom->photographer_id = $request->photographer_id;
             $custom->mua_id = $request->mua_id;
             $custom->save();
+
             $wedding->packet_custom_id = $custom->id;
+            $wedding->price = $totalPrice;
         }
 
         $wedding->user_id = $user->id;
         $wedding->save();
 
-        return redirect()->route('');
+        return redirect()->route('home');
     }
+
     public function updateWedding(Request $request ,Wedding $wedding = null, $type)
     {
         $credential = [

@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Packet;
 use App\Models\Vendor;
 use App\Models\VendorAttachment;
+use App\Models\Wedding;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,7 +49,8 @@ Route::get('/profile', function () {
 })->name('profile');
 
 Route::get('/wedding', function () {
-    return view('Users.wedding');
+    $weddings = Wedding::where('user_id', Auth::user()->id);
+    return view('Users.wedding', compact('weddings'));
 })->name('wedding');
 
 Route::get('/add.wedding', function () {
@@ -76,4 +79,4 @@ Route::get('/history', function () {
 
 Route::post('/login', [AuthController::class, 'login'])->name('post.login');
 Route::post('/register', [AuthController::class, 'register'])->name('post.register');
-Route::post('/wedding', [WeddingController::class, 'createWedding'])->name('post.wedding');
+Route::post('/wedding/{type}', [WeddingController::class, 'createWedding'])->name('post.wedding');

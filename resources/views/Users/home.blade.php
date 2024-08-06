@@ -5,7 +5,6 @@
 @section('title', 'Lovify')
 
 @section('content')
-    <a href="{{ route('add.wedding') }}">Add Wedding</a>
     @foreach ($categories as $category)
         <div>
             <h2>{{ $category->name }}</h2>
