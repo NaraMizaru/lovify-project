@@ -91,6 +91,10 @@ class VendorController extends Controller
             return response()->json([
                 'message' => 'Vendor created successfully',
             ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Vendor not have any attachments',
+            ], 422);
         }
     }
 
@@ -217,7 +221,7 @@ class VendorController extends Controller
 
         return response()->json([
             'message' => 'Get detail vendor',
-            'vendor' => $vendor->with('vendorAttachment')->first()
+            'vendor' => $vendor->with(['category', 'vendorAttachment'])->first()
         ], 200);
     }
 
@@ -231,7 +235,7 @@ class VendorController extends Controller
             ], 404);
         }
 
-        $vendor = Vendor::where('category_id', $category->id)->with('vendorAttachment')->get();
+        $vendor = Vendor::where('category_id', $category->id)->with(['category', 'vendorAttachment'])->get();
 
         return response()->json([
             'message' => 'Get vendors by category',
@@ -241,7 +245,7 @@ class VendorController extends Controller
 
     public function getVendors()
     {
-        $vendor = Vendor::with('vendorAttachment')->get();
+        $vendor = Vendor::with(['category', 'vendorAttachment'])->get();
 
         return response()->json([
             'message' => 'Get vendors',

@@ -7,7 +7,9 @@ use App\Models\Transaction;
 use App\Models\Wedding;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\support\Str;
 use Midtrans\Config;
+use Midtrans\Snap;
 
 class TransactionController extends Controller
 {
@@ -40,5 +42,40 @@ class TransactionController extends Controller
         $transaction->user_id = $user->id;
         $transaction->wedding_id = $wedding->id;
         $transaction->payment_type = $request->payment_type;
+        if ($request->payment_type === 'down payment') {
+            $transaction->dp_price = $wedding->dp_price;
+            $transaction->invoice = 'LOV-DP-' . Str::random(8);
+        } else if ($request->payment_type === 'full payment') {
+            $transaction->full_price = $wedding->price;
+            $transaction->invoice = 'LOV-FULL-' . Str::random(8);
+        }
+        $transaction->price = $wedding->price;
+        $transaction->date = now();
+        $transaction->save();
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $transaction->invoice,
+                'gross_amount' => $transaction->payment_type === 'down payment' ? $transaction->dp_price : $transaction->full_price,
+            ],
+            'customer_details' => [
+                'name' => $user->fullname,
+                'email' => $user->email,
+                'phone' => $user->number_phone,
+            ]
+        ];
+
+        try {
+            $snapToken = Snap::getSnapToken($params);
+            return response()->json([
+                'snap_token' => $snapToken, 
+                'transaction' => $transaction
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create transaction',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

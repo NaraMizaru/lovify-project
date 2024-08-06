@@ -21,7 +21,7 @@ class WeddingController extends Controller
         ];
 
         if (!in_array($type, ['packet', 'custom'])) {
-            return response()->json(['message' => 'Invalid type'], 400);
+            return response()->json(['message' => 'Invalid type ? packet : custom'], 400);
         }
 
         if ($type === 'packet') {
@@ -118,7 +118,7 @@ class WeddingController extends Controller
         ];
 
         if (!in_array($type, ['packet', 'custom'])) {
-            return response()->json(['message' => 'Invalid type'], 400);
+            return response()->json(['message' => 'Invalid type ? packet : custom'], 400);
         }
 
         if ($type === 'packet') {

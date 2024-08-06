@@ -39,8 +39,8 @@ Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
 
     Route::get('/vendors', [VendorController::class, 'getVendors']);
     Route::get('/vendors/{type}', [VendorController::class, 'getVendorByCategory']);
-    Route::post('/vendor/create/{type}', [VendorController::class, 'createVendor']);
     Route::get('/vendor/{id}/detail/{type}', [VendorController::class, 'detailVendor']);
+    Route::post('/vendor/create/{type}', [VendorController::class, 'createVendor']);
     Route::post('/vendor/{id}/edit/{type}', [VendorController::class, 'updateVendor']);
     Route::delete('/vendor/{id}/delete/{type}', [VendorController::class, 'deleteVendor']);
 
