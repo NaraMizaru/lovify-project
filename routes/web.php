@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Models\Category;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,22 +17,42 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('Users.home');
+    $vendors = Vendor::all();
+    $categories = Category::all();
+    return view('Users.home', compact('vendors', 'categories'));
 })->name('home');
-Route::get('login', function (){
+
+Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
-Route::get('register', function (){
+
+Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
-Route::get('landingpage', function (){
+
+Route::get('/landingpage', function () {
     return view('Users.landingpage');
 })->name('landingpage');
-Route::get('packets', function (){
+
+Route::get('/packets', function () {
     return view('Users.packets');
 })->name('packets');
-Route::get('profile', function (){
+
+Route::get('/profile', function () {
     return view('Users.profile');
 })->name('profile');
-Route::post('/login', [AuthController::class,'login'])->name('post.login');
-Route::post('/register', [AuthController::class,'register'])->name('post.register');
+
+Route::get('/wedding', function () {
+    return view('Users.wedding');
+})->name('wedding');
+
+Route::get('/transaction', function () {
+    return view('Users.transaction');
+})->name('transaction');
+
+Route::get('/history', function () {
+    return view('Users.history');
+})->name('history');
+
+Route::post('/login', [AuthController::class, 'login'])->name('post.login');
+Route::post('/register', [AuthController::class, 'register'])->name('post.register');
