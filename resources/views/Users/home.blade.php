@@ -5,26 +5,31 @@
 @section('title', 'Lovify')
 
 @section('content')
-
     @foreach ($categories as $category)
         <div>
             <h2>{{ $category->name }}</h2>
-            <div>
-                @foreach ($vendors as $vendor)
-                    @if ($vendor->category_id == $category->id)
+            @foreach ($vendors->where('category_id', $category->id) as $vendor)
+                <div>
+                    <h3>{{ $vendor->name }}</h3>
+                    @php
+                        $vendorAttachments = $attachments->get($vendor->id, collect());
+                    @endphp
+                    @if ($vendorAttachments->isNotEmpty())
+                        @php
+                            $attachment = $vendorAttachments->first();
+                        @endphp
                         <div>
-                            @foreach ($attachments as $attachment)
-                                @if ($attachment->vendor_id == $vendor->id)
-                                    <img src="{{ asset($attachment->image_path) }}" alt="" width="200">
-                                @endif
-                            @endforeach
-                            <h3>{{ $vendor->name }}</h3>
+                            <img src="{{ $attachment->image_path }}" alt="{{ $vendor->name }}" width="200">
                         </div>
+                    @else
+                        <p>No attachments available</p>
                     @endif
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         </div>
     @endforeach
+
+
 
     @push('js')
         <script src="{{ asset('components/js/sidebar.js') }}"></script>

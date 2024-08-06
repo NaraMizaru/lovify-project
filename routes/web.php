@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $vendors = Vendor::all();
-    $attachments = VendorAttachment::groupBy('vendor_id')->selectRaw('MIN(id) as id, vendor_id')->get();
     $categories = Category::all();
-    return view('Users.home', compact('vendors', 'categories', 'attachments'));
+    $vendors = Vendor::all();
+    $attachments = VendorAttachment::all()->groupBy('vendor_id');
+    return view('Users.home', compact('categories', 'vendors', 'attachments'));
 })->name('home');
 
 Route::get('/login', function () {
