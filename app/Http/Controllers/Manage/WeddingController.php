@@ -89,9 +89,9 @@ class WeddingController extends Controller
             'date' => ['required','string'],
         ];
 
-        if ($type == 'packet') {
+        if ($type == 'Packet') {
             $credential['packet_id'] = ['required'];
-        } else if ($type == 'custom') {
+        } else if ($type == 'Custom') {
             $credential['venue_id'] = ['nullable'];
             $credential['catering_id'] = ['nullable'];
             $credential['decoration_id'] = ['nullable'];
@@ -144,7 +144,6 @@ class WeddingController extends Controller
 
         return redirect()->route('');
     }
-
     public function updateWedding(Request $request ,Wedding $wedding = null, $type)
     {
         $credential = [
