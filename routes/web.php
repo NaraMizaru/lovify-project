@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Manage\WeddingController;
+use App\Models\Category;
+use App\Models\Packet;
+use App\Models\Vendor;
+use App\Models\VendorAttachment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +20,60 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $categories = Category::all();
+    $vendors = Vendor::all();
+    $attachments = VendorAttachment::all()->groupBy('vendor_id');
+    return view('Users.home', compact('categories', 'vendors', 'attachments'));
+})->name('home');
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+Route::get('/landingpage', function () {
+    return view('Users.landingpage');
+})->name('landingpage');
+
+Route::get('/packets', function () {
+    return view('Users.packets');
+})->name('packets');
+
+Route::get('/profile', function () {
+    return view('Users.profile');
+})->name('profile');
+
+Route::get('/wedding', function () {
+    return view('Users.wedding');
+})->name('wedding');
+
+Route::get('/add.wedding', function () {
+    return view('Users.choosePacketOrCustom');
+})->name('add.wedding');
+
+Route::get('/wedding/choose/{type}', function ($type) {
+    if ($type == 'Packet') {
+        $packets = Packet::all();
+        return view('Users.addWedding', compact('type', 'packets'));
+    } else if ($type == 'Custom') {
+        $categories = Category::all();
+        $vendors = Vendor::all();
+        $attachments = VendorAttachment::all()->groupBy('vendor_id');
+        return view('Users.addWedding', compact('type' ,'categories', 'vendors', 'attachments'));
+    }
+})->name('wedding.choose');
+
+Route::get('/transaction', function () {
+    return view('Users.transaction');
+})->name('transaction');
+
+Route::get('/history', function () {
+    return view('Users.history');
+})->name('history');
+
+Route::post('/login', [AuthController::class, 'login'])->name('post.login');
+Route::post('/register', [AuthController::class, 'register'])->name('post.register');
+Route::post('/wedding', [WeddingController::class, 'createWedding'])->name('post.wedding');
