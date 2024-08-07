@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Wedding</title>
+    <title>Document</title>
 </head>
 <body>
-    <a href="{{ route('add.wedding') }}">Add Wedding</a>
-    @foreach ($weddings as $wedding)
-        <p>{{ $wedding->name }}</p>
-    @endforeach
+    <a href="{{ route('wedding.choose', 'Custom') }}">Custom</a>
+    <a href="{{ route('wedding.choose', 'Packet') }}">Packet</a>
 </body>
 </html>
