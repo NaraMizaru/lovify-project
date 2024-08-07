@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Models\Category;
 use App\Models\Vendor;
 use App\Models\VendorAttachment;
+use App\Models\Wedding;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,7 +70,8 @@ Route::get('/dashboard-admin', function () {
 })->name('dashboard-admin');
 
 Route::get('/wedding-admin', function () {
-    return view('admin.wedding');
+    $weddings = Wedding::all();
+    return view('admin.wedding', compact('weddings'));
 })->name('wedding-admin');
 
 Route::post('/login', [AuthController::class, 'login'])->name('post.login');
