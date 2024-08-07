@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Packet;
 use App\Models\PacketCustom;
 use App\Models\Task;
@@ -14,90 +15,21 @@ use Illuminate\Support\Facades\Validator;
 
 class WeddingController extends Controller
 {
-    // public function createWeddingWithPacket(Request $request)
-    // {
-    //     $credential = [
-    //         'name' => ['required', 'string'],
-    //         'price' => ['required', 'integer'],
-    //         'date' => ['required', 'string'],
-    //         'packet_id' => ['required'],
-    //     ];
-
-    //     $validator = Validator::make($request->all(), $credential);
-    //     if ($validator->fails()) {
-    //         return redirect()->back()->withErrors($validator->errors())->withInput($request->all);
-    //     }
-
-    //     $user = Auth::user();
-
-    //     $wedding = new Wedding();
-    //     $wedding->name = $request->name;
-    //     $wedding->price = $request->price;
-    //     $wedding->date = $request->date;
-    //     $wedding->user_id = $user->id;
-    //     $wedding->packet_id = $request->packet_id;
-    //     $wedding->packet_custom_id = null;
-
-    //     $wedding->save();
-
-    //     $tasks = new Task();
-
-    //     return redirect()->route('');
-    // }
-
-    // public function createWeddingWithPacketCustom(Request $request)
-    // {
-    //     $credential = [
-    //         'name' => ['required', 'string'],
-    //         'price' => ['required', 'integer'],
-    //         'date' => ['required', 'string'],
-    //         'packet_id' => ['nullable'],
-    //     ];
-
-    //     $validator = Validator::make($request->all(), $credential);
-    //     if ($validator->fails()) {
-    //         return redirect()->back()->withErrors($validator->errors())->withInput($request->all);
-    //     }
-
-    //     $packetCustom = new PacketCustom();
-    //     $packetCustom->venue_id = $request->venue_id ?? null;
-    //     $packetCustom->catering_id = $request->catering_id ?? null;
-    //     $packetCustom->decoration_id = $request->decoration_id ?? null;
-    //     $packetCustom->photographer_id = $request->photographer_id ?? null;
-    //     $packetCustom->mua_id = $request->mua_id ?? null;
-    //     $packetCustom->save();
-
-    //     $user = Auth::user();
-
-    //     $wedding = new Wedding();
-    //     $wedding->name = $request->name;
-    //     $wedding->price = $request->price;
-    //     $wedding->date = $request->date;
-    //     $wedding->user_id = $user->id;
-    //     $wedding->packet_custom_id = $request->packet_custom_id;
-    //     $wedding->packet_id = null;
-
-    //     $wedding->save();
-
-    //     return redirect()->route('');
-    // }
-
     public function createWedding(Request $request, $type)
     {
         $credential = [
-            'name' => ['required', 'string'],
-            'date' => ['required', 'string'],
+            'name' => ['required','string'],
+            'date' => ['required','string'],
         ];
 
-        if ($type == 'packet') {
+        if ($type == 'Packet') {
             $credential['packet_id'] = ['required'];
-        } else if ($type == 'custom') {
+        } else if ($type == 'Custom') {
             $credential['venue_id'] = ['nullable'];
             $credential['catering_id'] = ['nullable'];
             $credential['decoration_id'] = ['nullable'];
             $credential['photographer_id'] = ['nullable'];
-            $credential['mua_id'] = ['nullable'];
-        }
+            $credential['mua_id'] = ['nullable'];        }
 
         $user = Auth::user();
 
@@ -108,86 +40,47 @@ class WeddingController extends Controller
 
         $wedding = new Wedding();
         $wedding->name = $request->name;
-        $wedding->price = $request->price;
         $wedding->date = $request->date;
 
-        if ($type == 'packet') {
+        if ($type == 'Packet') {
             $packet = Packet::find($request->packet_id);
             $wedding->packet_id = $packet->id;
             $wedding->price = $packet->price;
+        } else if ($type == 'Custom') {
+            $custom = new PacketCustom();
+            $totalPrice = 0;
 
-            $names = [
-                'venue_id' => 'Venue',
-                'catering_id' => 'Catering',
-                'decoration_id' => 'Decoration',
-                'photographer_id' => 'Photographer',
-                'mua_id' => 'Makeup Artist'
-            ];
-            $attributes = $packet->getAttributes();
-            foreach ($attributes as $key => $value) {
-                if (array_key_exists($key, $names) && $value) {
-                    $task = new Task();
-                    $task->name = $names[$key];
-                    $task->wedding_id = $wedding->id;
-                    $task->save();
+            $categories = Category::all();
+            foreach ($categories as $category) {
+                $vendorId = session("chosen_vendor.{$category->id}");
+                if ($vendorId) {
+                    $vendor = Vendor::find($vendorId);
+                    if ($vendor) {
+                        $custom->{strtolower($category->name) . '_id'} = $vendorId;
+                        $totalPrice += $vendor->total_price ?? 0;
+                    }
                 }
             }
-        } else if ($type == 'custom') {
-            $venue = Vendor::find($request->venue_id)->first();
-            $catering = Vendor::find($request->catering_id)->first();
-            $decoration = Vendor::find($request->decoration_id)->first();
-            $mua = Vendor::find($request->mua_id)->first();
-            $photographer = Vendor::find($request->photographer_id)->first();
 
-            $venuePrice = $venue->total_price ?? 0;
-            $decorationPrice = $decoration->total_price ?? 0;
-            $muaPrice = $mua->total_price ?? 0;
-            $photographerPrice = $photographer->total_price ?? 0;
-            $cateringPrice = $catering->total_price ?? 0;
-
-            $totalPrice = $venuePrice + $decorationPrice + $muaPrice + $photographerPrice + $cateringPrice;
-
-            $custom = new PacketCustom();
-            $custom->venue_id = $request->venue_id;
-            $custom->catering_id = $request->catering_id;
-            $custom->decoration_id = $request->decoration_id;
-            $custom->photographer_id = $request->photographer_id;
-            $custom->mua_id = $request->mua_id;
             $custom->save();
 
-            $names = [
-                'venue_id' => 'Venue',
-                'catering_id' => 'Catering',
-                'decoration_id' => 'Decoration',
-                'photographer_id' => 'Photographer',
-                'mua_id' => 'Makeup Artist'
-            ];
-
-            $attributes = $custom->getAttributes();
-
-            foreach ($attributes as $key => $value) {
-                if (array_key_exists($key, $names) && $value) {
-                    $task = new Task();
-                    $task->name = $names[$key];
-                    $task->wedding_id = $wedding->id;
-                    $task->save();
-                }
-            }
-
             $wedding->packet_custom_id = $custom->id;
+            $wedding->price = $totalPrice;
         }
 
         $wedding->user_id = $user->id;
         $wedding->save();
 
-        return redirect()->route('');
+        session()->forget('chosen_vendor');
+
+        return redirect()->route('home');
     }
 
-    public function updateWedding(Request $request, Wedding $wedding, $type)
+    public function updateWedding(Request $request ,Wedding $wedding = null, $type)
     {
         $credential = [
-            'name' => ['required', 'string'],
-            'date' => ['required', 'string'],
+            'name' => ['required','string'],
+            'date' => ['required','string'],
         ];
 
         if ($type == 'packet') {
@@ -202,7 +95,7 @@ class WeddingController extends Controller
 
         $validator = Validator::make($request->all(), $credential);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all);
         }
 
         $wedding->name = $request->name;
@@ -212,24 +105,6 @@ class WeddingController extends Controller
             $packet = Packet::find($request->packet_id);
             $wedding->packet_id = $packet->id;
             $wedding->price = $packet->price;
-
-            $names = [
-                'venue_id' => 'Venue',
-                'catering_id' => 'Catering',
-                'decoration_id' => 'Decoration',
-                'photographer_id' => 'Photographer',
-                'mua_id' => 'Makeup Artist'
-            ];
-
-            $attributes = $packet->getAttributes();
-
-            foreach ($attributes as $key => $value) {
-                if (array_key_exists($key, $names) && $value) {
-                    Task::updateOrCreate(
-                        ['wedding_id' => $wedding->id, 'name' => $names[$key]],
-                    );
-                }
-            }
         } else if ($type == 'custom') {
             $venue = Vendor::find($request->venue_id)->first();
             $catering = Vendor::find($request->catering_id)->first();
@@ -256,24 +131,6 @@ class WeddingController extends Controller
             $custom->mua_id = $request->mua_id;
             $custom->save();
 
-            $names = [
-                'venue_id' => 'Venue',
-                'catering_id' => 'Catering',
-                'decoration_id' => 'Decoration',
-                'photographer_id' => 'Photographer',
-                'mua_id' => 'Makeup Artist'
-            ];
-
-            $attributes = $custom->getAttributes();
-
-            foreach ($attributes as $key => $value) {
-                if (array_key_exists($key, $names) && $value) {
-                    Task::updateOrCreate(
-                        ['wedding_id' => $wedding->id, 'name' => $names[$key]],
-                    );
-                }
-            }
-
             $wedding->packet_custom_id = $custom->id;
             $wedding->price = $totalPrice;
         }
@@ -289,14 +146,14 @@ class WeddingController extends Controller
         return redirect()->route('');
     }
 
-    public function allWeddings()
+    public function chooseVendor(Request $request)
     {
-        $weddings = Wedding::all();
-        return view('', compact('weddings'));
-    }
+        $vendorId = $request->input('vendor_id');
+        $categoryId = $request->input('category_id');
 
-    public function detailWedding(Wedding $wedding)
-    {
-        return view('', compact('wedding'));
+        // Simpan pilihan vendor ke session
+        session(["chosen_vendor.$categoryId" => $vendorId]);
+
+        return redirect()->route('wedding.choose', ['type' => 'Custom']);
     }
 }
