@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Manage\VendorController;
 use App\Models\Category;
 use App\Models\Vendor;
 use App\Models\VendorAttachment;
@@ -75,8 +76,15 @@ Route::get('/wedding-admin', function () {
 })->name('wedding-admin');
 
 Route::get('/vendor-admin', function () {
-    return view('admin.vendor');
+    $vendors = Vendor::all();
+    $categories = Category::all();
+    return view('admin.vendor', compact('vendors'));
 })->name('vendor-admin');
+
+Route::get('/vendor-detail/{vendor}', function (Vendor $vendor) {
+    return view('admin.vendorDetail', compact('vendor'));
+})->name('vendor.detail');
 
 Route::post('/login', [AuthController::class, 'login'])->name('post.login');
 Route::post('/register', [AuthController::class, 'register'])->name('post.register');
+Route::delete('/vendor-delete/{vendor}', [VendorController::class, 'deleteVendor'])->name('vendor.delete');

@@ -126,11 +126,10 @@ class VendorController extends Controller
         return redirect()->route('');
     }
 
-    public function deleteVendor($id)
+    public function deleteVendor(Vendor $vendor)
     {
-        $vendor = Vendor::find($id);
         $vendor->delete();
-        return redirect()->route('');
+        return redirect()->back();
     }
 
     public function getAllVendors()
