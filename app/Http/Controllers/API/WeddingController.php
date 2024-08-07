@@ -463,6 +463,129 @@ class WeddingController extends Controller
         ], 200);
     }
 
+    public function getWeddingUser(Request $request)
+    {
+        $user = $request->user();
+
+        $weddings = Wedding::where('user_id', $user->id)->with([
+            'packet.venue.vendorAttachment',
+            'packet.decoration.vendorAttachment',
+            'packet.catering.vendorAttachment',
+            'packet.photographer.vendorAttachment',
+            'packet.mua.vendorAttachment',
+            'packetCustom.venue.vendorAttachment',
+            'packetCustom.decoration.vendorAttachment',
+            'packetCustom.catering.vendorAttachment',
+            'packetCustom.photographer.vendorAttachment',
+            'packetCustom.mua.vendorAttachment',
+        ])->get();
+
+        foreach ($weddings as $wedding) {
+            if ($wedding->packet) {
+                if ($wedding->packet->venue) {
+                    $wedding->packet->venue->makeHidden([
+                        'qty',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packet->decoration) {
+                    $wedding->packet->decoration->makeHidden([
+                        'qty',
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packet->photographer) {
+                    $wedding->packet->photographer->makeHidden([
+                        'qty',
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packet->mua) {
+                    $wedding->packet->mua->makeHidden([
+                        'qty',
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packet->catering) {
+                    $wedding->packet->catering->makeHidden([
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+            }
+
+            if ($wedding->packetCustom) {
+                if ($wedding->packetCustom->venue) {
+                    $wedding->packetCustom->venue->makeHidden([
+                        'qty',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packetCustom->decoration) {
+                    $wedding->packetCustom->decoration->makeHidden([
+                        'qty',
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packetCustom->photographer) {
+                    $wedding->packetCustom->photographer->makeHidden([
+                        'qty',
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packetCustom->mua) {
+                    $wedding->packetCustom->mua->makeHidden([
+                        'qty',
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+
+                if ($wedding->packetCustom->catering) {
+                    $wedding->packetCustom->catering->makeHidden([
+                        'address',
+                        'total_guest',
+                        'created_at',
+                        'updated_at',
+                    ]);
+                }
+            }
+        }
+
+        return response()->json([
+            'message' => 'Get wedding user',
+            'wedding' => $wedding
+        ]);
+    }
+
     public function deleteWedding(Request $request, $id)
     {
         $wedding = Wedding::find($id);

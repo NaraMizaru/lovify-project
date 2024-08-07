@@ -46,12 +46,14 @@ Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
     Route::delete('/vendor/{id}/delete/{type}', [VendorController::class, 'deleteVendor']);
 
     Route::get('weddings', [WeddingController::class, 'getWeddings']);
+    Route::get('weddings/user', [WeddingController::class, 'getWeddingUser']);
     Route::get('weddings/{type}', [WeddingController::class, 'getWeddingByCategory']);
     Route::get('wedding/{id}/detail', [WeddingController::class, 'getDetailWedding']);
     Route::post('create/wedding/{type}', [WeddingController::class, 'createWedding']);
     Route::post('update/{id}/wedding/{type}', [WeddingController::class, 'updateWedding']);
     Route::delete('wedding/{id}/delete', [WeddingController::class, 'deleteWedding']);
     
+    Route::get('wedding/{id}/tasks', [TaskController::class, 'getTaskWedding']);
     Route::post('wedding/{id}/task/{taskName}/process', [TaskController::class, 'taskToProcess']);
     Route::post('wedding/{id}/task/{taskName}/ready', [TaskController::class, 'taskToReady']);
 

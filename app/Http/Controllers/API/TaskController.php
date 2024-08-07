@@ -9,6 +9,22 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    public function getTaskWedding($id)
+    {
+        $wedding = Wedding::where('id', $id)->first();
+
+        if (!$wedding) {
+            return response()->json(['message' => 'Wedding not found'], 404);
+        }
+
+        $tasks = Task::where('wedding_id', $wedding->id)->get();
+
+        return response()->json([
+            'message' => 'Get tasks for wedding',
+            'tasks' => $tasks
+        ], 200);
+    }
+
     public function taskToProcess($id, $taskName)
     {
         $wedding = Wedding::where('id', $id)->first();

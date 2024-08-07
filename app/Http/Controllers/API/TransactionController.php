@@ -157,7 +157,7 @@ class TransactionController extends Controller
         }
     }
 
-    public function notification(Request $request)
+    public function notification()
     {
         try {
             $notification = new Notification();
