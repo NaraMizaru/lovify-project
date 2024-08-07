@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Models\Category;
 use App\Models\Vendor;
+use App\Models\VendorAttachment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $vendors = Vendor::all();
+    $attachments = VendorAttachment::groupBy('vendor_id')->selectRaw('MIN(id) as id, vendor_id')->get();
     $categories = Category::all();
-    return view('Users.home', compact('vendors', 'categories'));
+    return view('Users.home', compact('vendors', 'categories', 'attachments'));
 })->name('home');
 
 Route::get('/login', function () {
