@@ -74,5 +74,9 @@ Route::get('/wedding-admin', function () {
     return view('admin.wedding', compact('weddings'));
 })->name('wedding-admin');
 
+Route::get('/vendor-admin', function () {
+    return view('admin.vendor');
+})->name('vendor-admin');
+
 Route::post('/login', [AuthController::class, 'login'])->name('post.login');
 Route::post('/register', [AuthController::class, 'register'])->name('post.register');
