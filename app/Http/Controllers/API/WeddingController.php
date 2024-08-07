@@ -206,6 +206,7 @@ class WeddingController extends Controller
     public function getDetailWedding($id)
     {
         $wedding = Wedding::where('id', $id)->with([
+            'user',
             'packet.venue.vendorAttachment',
             'packet.decoration.vendorAttachment',
             'packet.catering.vendorAttachment',
@@ -319,6 +320,7 @@ class WeddingController extends Controller
 
         if ($type === 'packet') {
             $wedding = Wedding::where('packet_id', '!=', NULL)->with([
+                'user',
                 'packet.venue.vendorAttachment'
             ])->get();
 
@@ -328,6 +330,7 @@ class WeddingController extends Controller
             ], 200);
         } else if ($type === 'custom') {
             $wedding = Wedding::where('packet_custom_id', '!=', NULL)->with([
+                'user',
                 'packetCustom.venue.vendorAttachment'
             ])->get();
 
@@ -341,6 +344,7 @@ class WeddingController extends Controller
     public function getWeddings()
     {
         $weddings = Wedding::with([
+            'user',
             'packet.venue.vendorAttachment',
             'packet.decoration.vendorAttachment',
             'packet.catering.vendorAttachment',

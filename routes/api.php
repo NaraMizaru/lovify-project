@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PacketController;
 use App\Http\Controllers\API\TaskController;
+use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\VendorController;
 use App\Http\Controllers\API\WeddingController;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ Route::prefix('/v1/auth')->group(function() {
 Route::prefix('v1')->group(function() {
     Route::get('/packets', [PacketController::class, 'getPackets']);
     Route::get('/detail/{id}/packet', [PacketController::class, 'getDetailPacket']);
-
+    Route::post('payment/notification', [TransactionController::class, 'notification']);
 });
 
 Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
@@ -53,6 +54,9 @@ Route::group(['prefix' => 'v1' ,'middleware' => 'auth:sanctum'], function() {
     
     Route::post('wedding/{id}/task/{taskName}/process', [TaskController::class, 'taskToProcess']);
     Route::post('wedding/{id}/task/{taskName}/ready', [TaskController::class, 'taskToReady']);
+
+    Route::post('transaction/wedding/{id}/checkout', [TransactionController::class, 'checkout']);
+    Route::post('transaction/wedding/{id}/pay/{transactionId}/remaining', [TransactionController::class, 'payRemaining']);
 
     Route::prefix('admin')->group(function() {
         Route::post('/create/packet', [PacketController::class, 'createPacket']);
