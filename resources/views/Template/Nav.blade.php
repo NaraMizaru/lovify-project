@@ -5,7 +5,7 @@
     <hr color="white">
     <a href="{{route('packets')}}">Packets</a>
     <hr color="white">
-    <a href="#">Vendors?</a>
+    <a href="{{route('vendor')}}">Vendors?</a>
 </div>
 <div class="account">
     <a href="{{route('login')}}">Login</a>

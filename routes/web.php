@@ -54,5 +54,21 @@ Route::get('/history', function () {
     return view('Users.history');
 })->name('history');
 
+Route::get('/vendor', function () {
+    return view('Users.vendor');
+})->name('vendor');
+
+Route::get('/developer', function () {
+    return view('Users.developer');
+})->name('developer');
+
+Route::get('/dashboard-admin', function () {
+    return view('admin.dashboard-admin');
+})->name('dashboard-admin');
+
+Route::get('/wedding-admin', function () {
+    return view('admin.wedding');
+})->name('wedding-admin');
+
 Route::post('/login', [AuthController::class, 'login'])->name('post.login');
 Route::post('/register', [AuthController::class, 'register'])->name('post.register');

@@ -16,6 +16,7 @@
 <body>
     @include('Template.Nav')
     @yield('content')
-</body>
 
+</body>
+    @stack('js')
 </html>

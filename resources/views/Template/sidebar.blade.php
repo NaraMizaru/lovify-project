@@ -2,12 +2,12 @@
     <div class="navigation">
         <ul>
             <li>
-                <a href="{{ route('home') }}">
+                <a href="{{ route('landingpage') }}">
                     <img src="{{asset('components/assets/L.png')}}" alt="" class="icon">
                     <span class="title">Lovify</span>
                 </a>
             </li>
-
+<hr style="margin-right: 10px; margin-bottom:10px;" color="white">
             <li>
                 <a href="{{ route('home') }}">
                     <span class="icon"><i class="fa-solid fa-house"></i></span>

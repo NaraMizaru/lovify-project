@@ -1,0 +1,91 @@
+body{
+    background: #1E2742;
+}
+.container-slider{
+    display: grid;
+    margin-top: 50px;
+    gap: 50px;
+    margin-bottom: 50px;
+}
+.box{
+    display: grid;
+    place-items: center;
+}
+.slider{
+    height: 250px;
+    margin: auto;
+    position: relative;
+    width: 90%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 10px;
+}
+.slider-track{
+    display: flex;
+    width: calc(250px * 18);
+    animation: scroll 40s linear infinite;
+}
+.slider-track:hover {
+    animation-play-state: paused;
+}
+@keyframes scroll {
+0%{
+    transform: translateX(0);
+}
+100%{
+    transform: translateX(calc(-250px * 9));
+}
+}
+.slide{
+    height: 200px;
+    width: 250px;
+    align-items: center;
+    display: flex;
+    padding: 15px;
+    perspective: 100px;
+}
+img{
+    width: 100%;
+}
+a{
+    transition: transform 1s;
+}
+a:hover{
+    transform: translateZ(10px);
+}
+
+.slider::before,
+.slider::after {
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0) 100%);
+    content: '';
+    height: 100%;
+    position: absolute;
+    width: 15%;
+    z-index: 2;
+}
+.slider::before {
+    left: 0;
+    top: 0;
+}
+.slider::after{
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+}
+.box-name-vendor{
+display: flex;
+background: whitesmoke;
+border-radius: 10px;
+margin-top: -250px;
+position: absolute;
+display: flex;
+box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+z-index: 4;
+}
+.text{
+    padding: 10px;
+    color: #1E2742;
+}
