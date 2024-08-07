@@ -74,33 +74,58 @@
                     <option value="{{ packet->id }}">{{ packet->name }}</option>
                 </select>
             @endforeach
-        @elseif ($type == 'Custom')
+            @elseif ($type == 'Custom')
             <div>
                 @foreach ($categories as $category)
                     <div>
                         @csrf
                         <h2>{{ $category->name }}</h2>
-                        @foreach ($vendors->where('category_id', $category->id) as $vendor)
-                            <div>
-                                <h3>{{ $vendor->name }}</h3>
+                        @php
+                            $chosenVendorId = session("chosen_vendor.{$category->id}");
+                            $chosenVendor = $vendors->where('id', $chosenVendorId)->first();
+                        @endphp
+                        @if ($chosenVendor)
+                            <div class="card">
+                                <h3>{{ $chosenVendor->name }} (Chosen)</h3>
                                 @php
-                                    $vendorAttachments = $attachments->get($vendor->id, collect());
+                                    $vendorAttachments = $attachments->get($chosenVendor->id, collect());
                                 @endphp
                                 @if ($vendorAttachments->isNotEmpty())
                                     @php
                                         $attachment = $vendorAttachments->first();
                                     @endphp
                                     <div>
-                                        <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}"
+                                        <img src="{{ asset($attachment->image_path) }}" alt="{{ $chosenVendor->name }}"
                                             width="200">
                                     </div>
-                                    <input type="radio" value="{{ $vendor->id }}"
-                                        name="{{ $category->name . '_id' }}">
                                 @else
                                     <p>No attachments available</p>
                                 @endif
+                                <a href="{{ route('vendor.detail', ['id' => $chosenVendor->id]) }}">Detail</a>
+                                <a href="{{ route('wedding.choose', ['type' => 'Custom', 'change_category' => $category->id]) }}">Change</a>
                             </div>
-                        @endforeach
+                        @else
+                            @foreach ($vendors->where('category_id', $category->id) as $vendor)
+                                <div class="card">
+                                    <h3>{{ $vendor->name }}</h3>
+                                    @php
+                                        $vendorAttachments = $attachments->get($vendor->id, collect());
+                                    @endphp
+                                    @if ($vendorAttachments->isNotEmpty())
+                                        @php
+                                            $attachment = $vendorAttachments->first();
+                                        @endphp
+                                        <div>
+                                            <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}"
+                                                width="200">
+                                        </div>
+                                    @else
+                                        <p>No attachments available</p>
+                                    @endif
+                                    <a href="{{ route('vendor.detail', ['id' => $vendor->id]) }}">Detail</a>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 @endforeach
                 <button type="submit">Save Custom Wedding</button>
