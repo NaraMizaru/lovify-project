@@ -59,7 +59,7 @@
     margin: 5px 0;
     line-height: 50px;
 }
-.list .list-item a {
+.list .list-item .a-sidebar {
     font-size: 18px;
     color: #fff;
     text-decoration: none;
@@ -69,11 +69,11 @@
     transition: .5s;
     white-space: nowrap;
 }
-.list .list-item.active a,
-.list .list-item a:hover {
+.list .list-item.active .a-sidebar,
+.list .list-item .a-sidebar:hover {
     background: rgba(255, 255, 255, .2);
 }
-.list .list-item a i
+.list .list-item .a-sidebar i
  {
     min-width: 50px;
     height: 50px;

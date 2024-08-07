@@ -57,7 +57,7 @@
     margin-left: 180px;
     background-color: #BFA045;
 }
-.btn-a a{
+.btn-a .a-admin{
     background-color: #262c37;
     position: relative;
     display: inline-block;
@@ -73,13 +73,13 @@
     color: white;
 
 }
-a .spana{
+.a-admin .spana{
     position: absolute;
     display: block;
     background: #FBD1c6;
     border-radius: 5px;
 }
-a .spana:nth-child(1) {
+.a-admin .spana:nth-child(1) {
     left: 0;
     top: 0;
     width: 100%;
@@ -90,12 +90,12 @@ a .spana:nth-child(1) {
     transition-delay: 0.45s;
 }
 
-a:hover .spana:nth-child(1){
+.a-admin:hover .spana:nth-child(1){
     transition: transform 0.2s;
     transform: scaleX(1);
 }
 
-a .spana:nth-child(2) {
+.a-admin .spana:nth-child(2) {
     right: 0;
     top: 0;
     width: 2px;
@@ -106,13 +106,13 @@ a .spana:nth-child(2) {
     transition-delay: 0.3s;
 }
 
-a:hover .spana:nth-child(2){
+.a-admin:hover .spana:nth-child(2){
     transition: transform 0.2s;
     transform: scaleY(1);
     transition-delay: 0.1s;
 }
 
-a .spana:nth-child(3) {
+.a-admin .spana:nth-child(3) {
     right: 0;
     bottom: 0;
     width: 100%;
@@ -123,13 +123,13 @@ a .spana:nth-child(3) {
     transition-delay: 0.15s;
 }
 
-a:hover .spana:nth-child(3){
+.a-admin:hover .spana:nth-child(3){
     transition: transform 0.2s;
     transform: scaleX(1);
     transition-delay: 0.2s;
 }
 
-a .spana:nth-child(4) {
+.a-admin .spana:nth-child(4) {
     left: 0;
     bottom: 0;
     width: 2px;
@@ -139,12 +139,12 @@ a .spana:nth-child(4) {
     transition: transform 0.2s;
 }
 
-a:hover .spana:nth-child(4){
+.a-admin:hover .spana:nth-child(4){
     transition: transform 0.2s;
     transform: scaleY(1);
     transition-delay: 0.3s;
 }
 
-a:hover{
+.a-admin:hover{
     color: #FBD1c6;
 }
