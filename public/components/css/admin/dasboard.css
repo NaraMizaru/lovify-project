@@ -15,9 +15,6 @@
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-.h2-admin{
-    background: #BFA045;
-}
 .container-info {
     display: flex;
     gap: 20px;
@@ -42,9 +39,6 @@
     padding-left: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.box-text-info-wedding-vendor, p, h4{
-    background: #BFA045;
-}
 .box-text-info-wedding-vendor{
     display: grid;
     align-items: center;
@@ -55,7 +49,6 @@
     align-items: center;
     display: flex;
     margin-left: 180px;
-    background-color: #BFA045;
 }
 .btn-a .a-admin{
     background-color: #262c37;

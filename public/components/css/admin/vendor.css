@@ -18,3 +18,39 @@
 text-align: center;
 margin-bottom: 50px;
 } */
+
+
+.container-table{
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+#btn-detail-vendor{
+    color: white;
+    text-decoration: none;
+    background: rgb(77, 65, 65);
+    padding: 3px 10px 3px 10px;
+    border-radius: 5px;
+}
+#tr-vendor td{
+    border-color: white;
+}
+#btn-delete-vendor{
+    color: white;
+    border: none;
+    background: red;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#myTable{
+    border: 1px solid white;
+}
+#myTable thead{
+    background: rgba(75, 75, 75, 0.493);
+
+}
+#myTable thead tr th{
+    border-bottom: 1px solid rgb(124, 124, 124);
+}

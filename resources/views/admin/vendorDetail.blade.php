@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app-admin')
+@push('css')
+    <link rel="stylesheet" href="{{ asset('components/css/admin/vendor-detail.css') }}">
+@endpush
+@section('title', 'Admin')
+
+@section('content')
+
     <h1>Ini Detail Vendor {{ $vendor->name }}</h1>
     <p>Number Phone: {{ $vendor->number_phone }}</p>
     <p>Number Phone: {{ $vendor->bank_number }}</p>
@@ -21,5 +20,8 @@
         <p>{{ $vendor->total_guest }}</p>
         <p>{{ $vendor->address }}</p>
     @endif
-</body>
-</html>
+
+    @push('js')
+
+    @endpush
+    @endsection

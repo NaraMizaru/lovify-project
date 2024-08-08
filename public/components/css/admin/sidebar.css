@@ -11,6 +11,7 @@
     backdrop-filter: blur(40px);
     border-right: 2px solid rgba(255, 255, 255, .2);
     box-shadow: 0 0 10px rgba(255, 255, 255, .2);
+    z-index: 9999;
 }
 .sidebar.active{
     width: 260px;
