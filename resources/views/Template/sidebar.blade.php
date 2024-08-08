@@ -1,0 +1,54 @@
+
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="{{ route('landingpage') }}">
+                    <img src="{{asset('components/assets/L.png')}}" alt="" class="icon">
+                    <span class="title">Lovify</span>
+                </a>
+            </li>
+<hr style="margin-right: 10px; margin-bottom:10px;" color="white">
+            <li>
+                <a href="{{ route('home') }}">
+                    <span class="icon"><i class="fa-solid fa-house"></i></span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+
+        <li>
+            <a href="{{ route('profile') }}">
+                <span class="icon"><i class="fa-solid fa-user"></i></span>
+                <span class="title">Profile</span>
+            </a>
+        </li>
+
+            <li>
+                <a href="{{ route('wedding') }}">
+                    <span class="icon"><i class="fa-duotone fa-solid fa-rings-wedding"></i></span>
+                    <span class="title">Weddings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('transaction') }}">
+                    <span class="icon"><i class="fa-solid fa-money-from-bracket"></i></span>
+                    <span class="title">Transaction</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('history') }}">
+                    <span class="icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                    <span class="title">History</span>
+                </a>
+            </li>
+
+        <li>
+            <a href="#">
+                <span class="icon"><i class="fa-solid fa-circle-info"></i></span>
+                <span class="title">Help</span>
+            </a>
+        </li>
+    </ul>
+    <div class="toggle"></div>
+</div>
