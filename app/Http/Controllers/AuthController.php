@@ -43,7 +43,7 @@ class AuthController extends Controller
             if (Auth::attempt(['email' => $request->login, 'password' => $request->password])) {
                 $user = Auth::user();
                 if ($user->role == 'admin') {
-                    return redirect()->route('home.admin');
+                    return redirect()->route('admin.home');
                 }
                 return redirect()->route('home');
             } else {
