@@ -42,8 +42,8 @@ class AuthController extends Controller
         if ($type) {
             if (Auth::attempt(['email' => $request->login, 'password' => $request->password])) {
                 $user = Auth::user();
-                if ($user->role == 'admin') {
-                    return redirect()->route('admin.home');
+                if ($user->role == 'client') {
+                    return redirect()->route('client.home');
                 }
                 return redirect()->route('home');
             } else {
@@ -53,7 +53,7 @@ class AuthController extends Controller
             if (Auth::attempt(['username' => $request->login, 'password' => $request->password])) {
                 $user = Auth::user();
                 if ($user->role == 'admin') {
-                    return redirect()->route('home.admin');
+                    return redirect()->route('admin.home');
                 }
                 return redirect()->route('home');
             } else {
@@ -65,6 +65,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->back();
+        return redirect()->route('login');
     }
 }

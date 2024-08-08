@@ -23,23 +23,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     $categories = Category::all();
-//     $vendors = Vendor::all();
-//     $attachments = VendorAttachment::all()->groupBy('vendor_id');
-//     return view('Users.home', compact('categories', 'vendors', 'attachments'));
-// })->name('home');
-
-
-// Route::get('/profile', function () {
-//     return view('Users.profile');
-// })->name('profile');
-
-// Route::get('/wedding', function () {
-//     $weddings = Wedding::where('user_id', Auth::user()->id)->get();
-//     return view('Users.wedding', compact('weddings'));
-// })->name('wedding');
-
 // Route::get('/add.wedding', function () {
 //     return view('Users.choosePacketOrCustom');
 // })->name('add.wedding');
@@ -82,6 +65,14 @@ Route::middleware('is_guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('is_client_or_admin');
+
+Route::prefix('/client')->middleware('is_client')->group(function () {
+    Route::get('/home', [ViewController::class, 'clientHome'])->name('client.home');
+    Route::get('/profile', [ViewController::class, 'profile'])->name('client.profile');
+    Route::get('/weddings', [ViewController::class, 'weddingsClient'])->name('client.weddings');
+    Route::get('/transactions', [ViewController::class, 'transactionsClient'])->name('client.transactions');
+    Route::get('/history', [ViewController::class, 'historyClient'])->name('client.history');
+});
 
 Route::middleware('is_guest_or_client')->group(function () {
     Route::get('/', [ViewController::class, 'landingPage'])->name('landingPage');

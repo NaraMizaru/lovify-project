@@ -19,7 +19,7 @@
                             $attachment = $vendorAttachments->first();
                         @endphp
                         <div>
-                            <img src="{{ $attachment->image_path }}" alt="{{ $vendor->name }}" width="200">
+                            <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}" width="200">
                         </div>
                     @else
                         <p>No attachments available</p>

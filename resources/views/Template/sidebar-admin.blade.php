@@ -38,10 +38,10 @@
             </a> --}}
         </li>
         <li class="list-item">
-            <a href="#" class="a-sidebar">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                <span class="link-name" style="--i:4;">Logout</span>
-            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
         </li>
     </ul>
 </nav>
