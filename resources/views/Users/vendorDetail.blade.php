@@ -16,12 +16,5 @@
             <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}" width="200">
         @endforeach
     @endif
-
-    <form action="{{ route('choose.vendor') }}" method="POST">
-        @csrf
-        <input type="hidden" name="vendor_id" value="{{ $vendor->id }}">
-        <input type="hidden" name="category_id" value="{{ $vendor->category_id }}">
-        <button type="submit">Choose This Vendor</button>
-    </form>
 </body>
 </html>

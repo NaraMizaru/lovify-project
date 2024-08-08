@@ -10,7 +10,6 @@
             <h2>{{ $category->name }}</h2>
             @foreach ($vendors->where('category_id', $category->id) as $vendor)
                 <div>
-                    <h3>{{ $vendor->name }}</h3>
                     @php
                         $vendorAttachments = $attachments->get($vendor->id, collect());
                     @endphp
@@ -18,8 +17,17 @@
                         @php
                             $attachment = $vendorAttachments->first();
                         @endphp
+                        <h3>{{ $vendor->name }}</h3>
                         <div>
                             <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}" width="200">
+                            <p>{{ $vendor->total_price }}</p>
+                            @if ($vendor->category->name == 'vanue')
+                                <p>Address: {{ $vendor->address }}</p>
+                                <p>Total Guest: {{ $vendor->total_guest }}</p>
+                            @elseif ($vendor->category->name == 'catering')
+                                <p>Jumlah: {{ $vendor->qty }}++</p>
+                            @endif
+                            <a href="{{ route('vendor.detail', $vendor) }}">Detail</a>
                         </div>
                     @else
                         <p>No attachments available</p>

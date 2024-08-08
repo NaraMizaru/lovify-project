@@ -45,17 +45,17 @@ class AuthController extends Controller
                 if ($user->role == 'client') {
                     return redirect()->route('client.home');
                 }
-                return redirect()->route('home');
+                return redirect()->route('admin.home');
             } else {
                 return redirect()->back()->with('message', 'Invalid Credentials');
             }
         } else {
             if (Auth::attempt(['username' => $request->login, 'password' => $request->password])) {
                 $user = Auth::user();
-                if ($user->role == 'admin') {
-                    return redirect()->route('admin.home');
+                if ($user->role == 'client') {
+                    return redirect()->route('client.home');
                 }
-                return redirect()->route('home');
+                return redirect()->route('admin.home');
             } else {
                 return redirect()->back()->with('message', 'Invalid Credentials');
             }

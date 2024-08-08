@@ -7,7 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{{ route('wedding.choose', 'Custom') }}">Custom</a>
-    <a href="{{ route('wedding.choose', 'Packet') }}">Packet</a>
+    <h1>Choose Packet</h1>
+    @foreach ($packets as $packet)
+        <p>{{ $packet->name }}</p>
+    @endforeach
 </body>
 </html>

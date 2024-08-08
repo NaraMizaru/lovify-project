@@ -15,63 +15,86 @@ use Illuminate\Support\Facades\Validator;
 
 class WeddingController extends Controller
 {
-    public function createWedding(Request $request, $type)
+    // public function createWedding(Request $request, $type)
+    // {
+    //     $credential = [
+    //         'name' => ['required','string'],
+    //         'date' => ['required','string'],
+    //     ];
+
+    //     if ($type == 'Packet') {
+    //         $credential['packet_id'] = ['required'];
+    //     } else if ($type == 'Custom') {
+    //         // Kita tidak perlu validasi untuk vendor_id di sini karena sudah dipilih sebelumnya
+    //     }
+
+    //     $user = Auth::user();
+
+    //     $validator = Validator::make($request->all(), $credential);
+    //     if ($validator->fails()) {
+    //         return redirect()->back()->withErrors($validator->errors())->withInput($request->all);
+    //     }
+
+    //     $wedding = new Wedding();
+    //     $wedding->name = $request->name;
+    //     $wedding->date = $request->date;
+
+    //     if ($type == 'Packet') {
+    //         $packet = Packet::find($request->packet_id);
+    //         $wedding->packet_id = $packet->id;
+    //         $wedding->price = $packet->price;
+    //     } else if ($type == 'Custom') {
+    //         $custom = new PacketCustom();
+    //         $totalPrice = 0;
+
+    //         $categories = Category::all();
+    //         foreach ($categories as $category) {
+    //             $vendorId = session("chosen_vendor.{$category->id}");
+    //             if ($vendorId) {
+    //                 $vendor = Vendor::find($vendorId);
+    //                 if ($vendor) {
+    //                     $custom->{strtolower($category->name) . '_id'} = $vendorId;
+    //                     $totalPrice += $vendor->total_price ?? 0;
+    //                 }
+    //             }
+    //         }
+
+    //         $custom->save();
+
+    //         $wedding->packet_custom_id = $custom->id;
+    //         $wedding->price = $totalPrice;
+    //     }
+
+    //     $wedding->user_id = $user->id;
+    //     $wedding->save();
+
+    //     // Bersihkan session setelah wedding disimpan
+    //     session()->forget('chosen_vendor');
+
+    //     return redirect()->route('home');
+    // }
+
+    public function addWedding(Request $request)
     {
         $credential = [
             'name' => ['required','string'],
             'date' => ['required','string'],
         ];
 
-        if ($type == 'Packet') {
-            $credential['packet_id'] = ['required'];
-        } else if ($type == 'Custom') {
-            // Kita tidak perlu validasi untuk vendor_id di sini karena sudah dipilih sebelumnya
-        }
-
-        $user = Auth::user();
-
         $validator = Validator::make($request->all(), $credential);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->errors())->withInput($request->all);
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
         }
 
         $wedding = new Wedding();
+        $wedding->user_id = Auth::user()->id;
         $wedding->name = $request->name;
         $wedding->date = $request->date;
-
-        if ($type == 'Packet') {
-            $packet = Packet::find($request->packet_id);
-            $wedding->packet_id = $packet->id;
-            $wedding->price = $packet->price;
-        } else if ($type == 'Custom') {
-            $custom = new PacketCustom();
-            $totalPrice = 0;
-
-            $categories = Category::all();
-            foreach ($categories as $category) {
-                $vendorId = session("chosen_vendor.{$category->id}");
-                if ($vendorId) {
-                    $vendor = Vendor::find($vendorId);
-                    if ($vendor) {
-                        $custom->{strtolower($category->name) . '_id'} = $vendorId;
-                        $totalPrice += $vendor->total_price ?? 0;
-                    }
-                }
-            }
-
-            $custom->save();
-
-            $wedding->packet_custom_id = $custom->id;
-            $wedding->price = $totalPrice;
-        }
-
-        $wedding->user_id = $user->id;
+        $wedding->price = 0;
+        $wedding->dp_price = 0;
         $wedding->save();
 
-        // Bersihkan session setelah wedding disimpan
-        session()->forget('chosen_vendor');
-
-        return redirect()->route('home');
+        return view('Users.Wedding.choosePacketOrCustom', compact('wedding'));
     }
 
     public function updateWedding(Request $request ,Wedding $wedding = null, $type)

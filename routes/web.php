@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Manage\VendorController;
+use App\Http\Controllers\Manage\WeddingController;
 use App\Http\Controllers\ViewController;
 use App\Models\Category;
 use App\Models\Packet;
@@ -22,10 +23,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Route::get('/add.wedding', function () {
-//     return view('Users.choosePacketOrCustom');
-// })->name('add.wedding');
 
 // Route::get('/wedding/choose/{type}', function ($type, Request $request) {
 //     if ($type == 'Packet') {
@@ -72,12 +69,25 @@ Route::prefix('/client')->middleware('is_client')->group(function () {
     Route::get('/weddings', [ViewController::class, 'weddingsClient'])->name('client.weddings');
     Route::get('/transactions', [ViewController::class, 'transactionsClient'])->name('client.transactions');
     Route::get('/history', [ViewController::class, 'historyClient'])->name('client.history');
+    Route::prefix('/wedding')->group(function () {
+        Route::get('/add', [ViewController::class, 'addWedding'])->name('add.wedding');
+        Route::post('/add', [WeddingController::class, 'addWedding'])->name('add.post.wedding');
+        Route::prefix('/choose')->group(function () {
+            Route::get('/packets/{wedding}', [ViewController::class, 'choosePacket'])->name('choose.packet.wedding');
+            Route::get('/custom/{wedding}', [ViewController::class, 'chooseCustom'])->name('choose.custom.wedding');
+        });
+        Route::prefix('/select')->group(function () {
+            Route::get('/packets/{$wedding}/{packet}', [ViewController::class, 'selectPacket'])->name('select.packet.wedding');
+        });
+    });
 });
 
 Route::middleware('is_guest_or_client')->group(function () {
     Route::get('/', [ViewController::class, 'landingPage'])->name('landingPage');
     Route::get('/packets', [ViewController::class, 'packets'])->name('packets');
     Route::get('/vendors', [ViewController::class, 'vendors'])->name('vendors');
+
+    Route::get('/vendor/details/{vendor}', [ViewController::class,'vendorDetails'])->name('vendor.detail');
 });
 
 Route::prefix('admin')->middleware('is_admin')->group(function () {

@@ -24,44 +24,15 @@
 </head>
 
 <body>
-    {{-- <h1>Ini add Wedding {{ $type }}</h1> --}}
-    {{-- <form action="{{ route('add.wedding') }}">
+    <form action="{{ route('add.post.wedding') }}" method="POST">
         @csrf
         <label for="name">Name: </label>
-        <input type="text" name="name" id="name" required>
+        <input type="text" name="name" id="name">
         <label for="date">Date: </label>
         <input type="date" name="date" id="date">
-        @if ($type == 'Packet')
-            @foreach ($packets as $packet)
-                <select name="packet_id" id="packet_id">
-                    <option value="{{ packet->id }}">{{ packet->name }}</option>
-                </select>
-            @endforeach
-        @elseif ($type == 'Custom')
-            @foreach ($categories as $category)
-                <div>
-                    <h2>{{ $category->name }}</h2>
-                    @foreach ($vendors->where('category_id', $category->id) as $vendor)
-                        <div>
-                            <h3>{{ $vendor->name }}</h3>
-                            @php
-                                $vendorAttachments = $attachments->get($vendor->id, collect());
-                            @endphp
-                            @if ($vendorAttachments->isNotEmpty())
-                                @php
-                                    $attachment = $vendorAttachments->first();
-                                @endphp
-                                <div>
-                                    <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}" width="200">
-                                </div>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
-            @endforeach
-        @endif
-    </form> --}}
-    <h1>Create Your Custom Wedding</h1>
+        <button type="submit">Create</button>
+    </form>
+    {{-- <h1>Create Your Custom Wedding</h1>
     <form action="{{ route('post.wedding', $type) }}" method="POST">
         @csrf
         <label for="name">Name: </label>
@@ -131,16 +102,16 @@
                 <button type="submit">Save Custom Wedding</button>
             </div>
         @endif
-    </form>
+    </form> --}}
 
-    <script>
+    {{-- <script>
         function selectItem(category, itemId) {
             const items = document.querySelectorAll(`[data-id^="${category}"]`);
             items.forEach(item => item.classList.remove('disabled'));
 
             document.querySelector(`[data-id="${itemId}"]`).classList.add('disabled');
         }
-    </script>
+    </script> --}}
 </body>
 
 </html>

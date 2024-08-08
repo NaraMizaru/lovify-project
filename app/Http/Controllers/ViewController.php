@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Packet;
+use App\Models\PacketCustom;
 use App\Models\Transaction;
 use App\Models\Vendor;
 use App\Models\VendorAttachment;
@@ -50,7 +51,37 @@ class ViewController extends Controller
     public function weddingsClient()
     {
         $weddings = Wedding::where('user_id', Auth::user()->id)->get();
-        return view('Users.wedding', compact('weddings'));
+        return view('Users.Wedding.wedding', compact('weddings'));
+    }
+
+    public function addWedding()
+    {
+        return view('Users.Wedding.addWedding');
+    }
+
+    public function choosePacket(Wedding $wedding)
+    {
+        $packets = Packet::all();
+        return view('Users.Wedding.choosePacket', compact('wedding', 'packets'));
+    }
+
+    public function selectPacket(Wedding $wedding, Packet $packet)
+    {
+        $price = $packet->price;
+        $dp = 0.15 * $price;
+        $wedding->packet_id = $packet->id;
+        $wedding->price = $price + $dp;
+        $wedding->save();
+        return redirect()->route('client.weddings');
+    }
+
+    public function chooseCustom(Wedding $wedding)
+    {
+        $custom = new PacketCustom();
+        $categories = Category::all();
+        $vendors = Vendor::all();
+        $attachments = VendorAttachment::all()->groupBy('vendor_id');
+        return view('Users.Wedding.chooseCustom', compact('wedding', 'custom', 'categories', 'vendors', 'attachments'));
     }
 
     public function transactionsClient()
@@ -79,15 +110,10 @@ class ViewController extends Controller
         return view('Users.vendor', compact('vendors', 'attachments', 'categories'));
     }
 
-    public function detailVendor(Vendor $vendor)
+    public function vendorDetails(Vendor $vendor)
     {
         $attachments = VendorAttachment::where('vendor_id', $vendor->id)->get();
         return view('Users.vendorDetail', compact('vendor', 'attachments'));
-    }
-
-    public function addWedding()
-    {
-        return view('Users.addWedding');
     }
 
 
