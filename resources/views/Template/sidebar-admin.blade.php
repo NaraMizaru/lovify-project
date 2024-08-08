@@ -8,34 +8,34 @@
 
     <ul class="list">
         <li class="list-item active">
-            <a href="{{route('dashboard-admin')}}" class="a-sidebar">
+            {{-- <a href="{{route('dashboard-admin')}}" class="a-sidebar">
                 <i class="fa-regular fa-grid-horizontal"></i>
                 <span class="link-name" style="--i:1;">Dashboard</span>
-            </a>
+            </a> --}}
         </li>
         <li class="list-item">
-            <a href="{{route('vendor-admin')}}" class="a-sidebar">
+            {{-- <a href="{{route('vendor-admin')}}" class="a-sidebar">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:2;">Kelola Vendor</span>
-            </a>
+            </a> --}}
         </li>
         <li class="list-item">
-            <a href="{{route('wedding-admin')}}" class="a-sidebar">
+            {{-- <a href="{{route('wedding-admin')}}" class="a-sidebar">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:3;">Kelola Wedding</span>
-            </a>
+            </a> --}}
         </li>
         <li class="list-item">
-            <a href="#" class="a-sidebar">
+            {{-- <a href="#" class="a-sidebar">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:4;">Kelola Paket</span>
-            </a>
+            </a> --}}
         </li>
         <li class="list-item">
-            <a href="#" class="a-sidebar">
+            {{-- <a href="#" class="a-sidebar">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:4;">Kelola Transaksi</span>
-            </a>
+            </a> --}}
         </li>
     </ul>
 </nav>

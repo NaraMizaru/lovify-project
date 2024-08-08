@@ -20,13 +20,13 @@
                 <h4>100</h4>
             </div>
             <div class="btn-a">
-                <a class="a-admin" href="{{route('wedding-admin')}}">
+                {{-- <a class="a-admin" href="{{route('wedding-admin')}}">
                     <span class="spana"></span>
                     <span class="spana"></span>
                     <span class="spana"></span>
                     <span class="spana"></span>
                     OPEN
-                </a>
+                </a> --}}
             </div>
         </div>
         <div class="box-vendor">
@@ -38,7 +38,7 @@
                 <h4>300</h4>
             </div>
             <div class="btn-a">
-                <a class="a-admin" href="{{route('vendor-admin')}}">
+                <a class="a-admin" href="{{route('vendor.admin')}}">
                     <span class="spana"></span>
                     <span class="spana"></span>
                     <span class="spana"></span>

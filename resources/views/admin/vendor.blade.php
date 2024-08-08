@@ -53,7 +53,7 @@
                     <td>{{ $vendor->number_phone }}</td>
                     <td>{{ $vendor->bank_number }}</td>
                     <td>{{ ucfirst($vendor->category->name) }}</td>
-                    <td><a href="{{ route('vendor.detail', $vendor) }}" class="btn btn-sm btn-primary" id="btn-detail-vendor">Detail</a></td>
+                    <td><a href="{{ route('vendor.admin.details', $vendor) }}" class="btn btn-sm btn-primary" id="btn-detail-vendor">Detail</a></td>
                     <td>
                         <form action="{{ route('vendor.delete', $vendor) }}" method="POST" onsubmit="return submitForm(this);">
                             @csrf

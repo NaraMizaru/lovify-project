@@ -44,4 +44,22 @@ class ViewController extends Controller
         return view('Users.vendorDetail', compact('vendor', 'attachments'));
     }
 
+
+    // Admin
+    public function adminHome()
+    {
+        return view('admin.dashboard-admin');
+    }
+
+    public function vendorAdmin()
+    {
+        $vendors = Vendor::all();
+        $categories = Category::all();
+        return view('admin.vendor', compact('vendors', 'categories'));
+    }
+
+    public function vendorAdminDetails(Vendor $vendor)
+    {
+        return view('admin.vendorDetail', compact('vendor'));
+    }
 }

@@ -78,24 +78,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('Users.developer');
 // })->name('developer');
 
-// Route::get('/dashboard-admin', function () {
-//     return view('admin.dashboard-admin');
-// })->name('dashboard-admin');
-
 // Route::get('/wedding-admin', function () {
 //     $weddings = Wedding::all();
 //     return view('admin.wedding', compact('weddings'));
 // })->name('wedding-admin');
-
-// Route::get('/vendor-admin', function () {
-//     $vendors = Vendor::all();
-//     $categories = Category::all();
-//     return view('admin.vendor', compact('vendors'));
-// })->name('vendor-admin');
-
-// Route::get('/vendor-detail/{vendor}', function (Vendor $vendor) {
-//     return view('admin.vendorDetail', compact('vendor'));
-// })->name('vendor.detail');
 
 Route::middleware('is_guest')->group(function () {
     Route::get('/login', [ViewController::class, 'login'])->name('login');
@@ -108,6 +94,12 @@ Route::middleware('is_guest_or_client')->group(function () {
     Route::get('/', [ViewController::class, 'landingPage'])->name('landingPage');
     Route::get('/packets', [ViewController::class, 'packets'])->name('packets');
     Route::get('/vendors', [ViewController::class, 'vendors'])->name('vendors');
+});
+
+Route::prefix('admin')->middleware('is_admin')->group(function () {
+    Route::get('/home', [ViewController::class, 'adminHome'])->name('admin.home');
+    Route::get('/vendors', [ViewController::class, 'vendorAdmin'])->name('vendor.admin');
+    Route::get('/vendor/details/{vendor}', [ViewController::class, 'vendorAdminDetails'])->name('vendor.admin.details');
 });
 
 Route::post('/login', [AuthController::class, 'login'])->name('post.login');
