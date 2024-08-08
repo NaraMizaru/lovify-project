@@ -78,11 +78,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('Users.developer');
 // })->name('developer');
 
-// Route::get('/wedding-admin', function () {
-//     $weddings = Wedding::all();
-//     return view('admin.wedding', compact('weddings'));
-// })->name('wedding-admin');
-
 Route::middleware('is_guest')->group(function () {
     Route::get('/login', [ViewController::class, 'login'])->name('login');
     Route::get('/register', [ViewController::class,'register'])->name('register');
@@ -98,7 +93,8 @@ Route::middleware('is_guest_or_client')->group(function () {
 
 Route::prefix('admin')->middleware('is_admin')->group(function () {
     Route::get('/home', [ViewController::class, 'adminHome'])->name('admin.home');
-    Route::get('/vendors', [ViewController::class, 'vendorAdmin'])->name('vendor.admin');
+    Route::get('/weddings', [ViewController::class, 'weddingAdmin'])->name('weddings.admin');
+    Route::get('/vendors', [ViewController::class, 'vendorAdmin'])->name('vendors.admin');
     Route::get('/vendor/details/{vendor}', [ViewController::class, 'vendorAdminDetails'])->name('vendor.admin.details');
 });
 

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Packet;
 use App\Models\Vendor;
 use App\Models\VendorAttachment;
+use App\Models\Wedding;
 use Illuminate\Http\Request;
 
 class ViewController extends Controller
@@ -49,6 +50,12 @@ class ViewController extends Controller
     public function adminHome()
     {
         return view('admin.dashboard-admin');
+    }
+
+    public function weddingAdmin()
+    {
+        $weddings = Wedding::all();
+        return view('admin.wedding', compact('weddings'));
     }
 
     public function vendorAdmin()
