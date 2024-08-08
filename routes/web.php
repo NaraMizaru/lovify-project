@@ -74,16 +74,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('Users.history');
 // })->name('history');
 
-// Route::get('/developer', function () {
-//     return view('Users.developer');
-// })->name('developer');
+Route::get('/developers', [ViewController::class, 'developers']);
 
 Route::middleware('is_guest')->group(function () {
     Route::get('/login', [ViewController::class, 'login'])->name('login');
     Route::get('/register', [ViewController::class,'register'])->name('register');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('is_client_or_admin');
 
 Route::middleware('is_guest_or_client')->group(function () {
     Route::get('/', [ViewController::class, 'landingPage'])->name('landingPage');

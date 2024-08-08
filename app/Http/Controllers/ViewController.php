@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class ViewController extends Controller
 {
+    public function developers()
+    {
+        return view('Users.developer');
+    }
+
     public function landingPage()
     {
         return view('Users.landingpage');
