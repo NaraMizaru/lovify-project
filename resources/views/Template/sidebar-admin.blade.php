@@ -14,15 +14,21 @@
             </a>
         </li>
         <li class="list-item">
-            <a href="#" class="a-sidebar">
+            <a href="{{route('vendor-admin')}}" class="a-sidebar">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:2;">Kelola Vendor</span>
             </a>
         </li>
         <li class="list-item">
-            <a href="#" class="a-sidebar">
+            <a href="{{route('wedding-admin')}}" class="a-sidebar">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:3;">Kelola Wedding</span>
+            </a>
+        </li>
+        <li class="list-item">
+            <a href="#" class="a-sidebar">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="link-name" style="--i:4;">Kelola Paket</span>
             </a>
         </li>
         <li class="list-item">

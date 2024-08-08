@@ -2,11 +2,18 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('components/css/admin/dasboard.css') }}">
     <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('components/css/admin/vendor.css')}}">
+    <link rel="stylesheet" href="cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> --}}
 @endpush
 @section('title', 'Admin')
 @section('content')
+<div class="container-table">
+    <div class="box-name-table">
     <h1>Daftar Vendor</h1>
-    <table id="vendorTable" class="display" style="width:100%;">
+    </div>
+<div class="box-table">
+    <table id="myTable" class="display" style="width:100%;">
         <thead>
             <tr>
                 <th>Nama</th>
@@ -57,17 +64,13 @@
             @endforeach
         </tbody>
     </table>
+</div>
+</div>
     @push('js')
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> --}}
         <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
         <script>
-            $(document).ready(function() {
-                $('#vendorTable').DataTable({
-                    responsive: true,
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json'
-                    }
-                });
-            });
+            let table = new DataTable('#myTable')
         </script>
     @endpush
 @endsection
