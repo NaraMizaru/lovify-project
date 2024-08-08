@@ -37,6 +37,12 @@
                 <span class="link-name" style="--i:4;">Kelola Transaksi</span>
             </a> --}}
         </li>
+        <li class="list-item">
+            <a href="#" class="a-sidebar">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span class="link-name" style="--i:4;">Logout</span>
+            </a>
+        </li>
     </ul>
 </nav>
 @push('js')
