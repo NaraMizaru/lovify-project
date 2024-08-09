@@ -8,19 +8,19 @@
 
     <ul class="list">
         <li class="list-item active">
-            <a href="{{route('admin.home')}}" class="a-sidebar">
+            <a href="{{route('admin.home')}}" class="a-sidebar" title="Dashboard">
                 <i class="fa-regular fa-grid-horizontal"></i>
                 <span class="link-name" style="--i:1;">Dashboard</span>
             </a>
         </li>
         <li class="list-item">
-            <a href="{{route('vendors.admin')}}" class="a-sidebar">
+            <a href="{{route('vendors.admin')}}" class="a-sidebar" title="Kelola Vendor">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:2;">Kelola Vendor</span>
             </a>
         </li>
         <li class="list-item">
-            <a href="{{route('weddings.admin')}}" class="a-sidebar">
+            <a href="{{route('weddings.admin')}}" class="a-sidebar" title="Kelola Wedding">
                 <i class="fa-solid fa-list-check"></i>
                 <span class="link-name" style="--i:3;">Kelola Wedding</span>
             </a>
@@ -40,7 +40,10 @@
         <li class="list-item">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit">Logout</button>
+                <button type="submit" class="b-sidebar" title="Logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span class="link-name" style="--i:4;">Logout</span>
+                </button>
             </form>
         </li>
     </ul>

@@ -70,8 +70,29 @@
     transition: .5s;
     white-space: nowrap;
 }
+.list .list-item .b-sidebar {
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: .5s;
+    white-space: nowrap;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+}
+.list .list-item .b-sidebar i{
+    margin-left: 15px;
+    margin-right: 15px;
+}
 .list .list-item.active .a-sidebar,
-.list .list-item .a-sidebar:hover {
+.list .list-item .a-sidebar:hover,
+.list .list-item.active .b-sidebar,
+.list .list-item .b-sidebar:hover {
     background: rgba(255, 255, 255, .2);
 }
 .list .list-item .a-sidebar i
@@ -91,3 +112,5 @@
     pointer-events: auto;
     transition-delay: calc(.1s * var(--i));
 }
+
+
