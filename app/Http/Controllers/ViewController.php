@@ -59,6 +59,17 @@ class ViewController extends Controller
         return view('Users.Wedding.addWedding');
     }
 
+    public function detailWedding(Wedding $wedding)
+    {
+        if ($wedding->packet_id) {
+            $packet = Packet::find($wedding->packet_id);
+            return view('Users.Wedding.detailWedding', compact('wedding', 'packet'));
+        } else if ($wedding->packet_custom_id) {
+            $custom = PacketCustom::find($wedding->packet_custom_id);
+            return view('Users.Wedding.detailWedding', compact('wedding', 'custom'));
+        }
+    }
+
     public function choosePacket(Wedding $wedding)
     {
         $packets = Packet::all();
@@ -88,23 +99,25 @@ class ViewController extends Controller
         return view('Users.Wedding.chooseCustom', compact('wedding', 'custom', 'categories', 'vendors', 'attachments'));
     }
 
-    public function chooseDetailCustom(Wedding $wedding, PacketCustom $custom, Vendor $vendor)
+    public function chooseDetailCustom(Wedding $wedding, PacketCustom $custom, Vendor $vendor, $type)
     {
         $attachments = VendorAttachment::where('vendor_id', $vendor->id)->get();
-        return view('Users.Wedding.chooseDetailCustom', compact('wedding', 'custom', 'vendor', 'attachments'));
+        return view('Users.Wedding.chooseDetailCustom', compact('wedding', 'custom', 'vendor', 'attachments', 'type'));
     }
 
     public function selectCustom(Wedding $wedding, PacketCustom $custom, Vendor $vendor, $type)
     {
-        $key = "chosen_vendor.{$custom->id}.{$type}";
-        if (session()->has($key)) {
-            session()->forget($key);
-        }
-        session()->put($key, $vendor->id);
         $type_vendor = "{$type}_id";
         $custom->$type_vendor = $vendor->id;
         $custom->save();
-        return view('Users.Wedding.chooseCustom');
+        return redirect()->route('choose.custom.wedding', [$wedding, $custom]);
+    }
+
+    public function saveCustomWedding(Wedding $wedding)
+    {
+        $categories = Category::all();
+        $vendors = Vendor::all();
+        return redirect()->route('detail.wedding', $wedding);
     }
 
     public function transactionsClient()

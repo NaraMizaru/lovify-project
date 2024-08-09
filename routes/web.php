@@ -70,16 +70,18 @@ Route::prefix('/client')->middleware('is_client')->group(function () {
     Route::get('/transactions', [ViewController::class, 'transactionsClient'])->name('client.transactions');
     Route::get('/history', [ViewController::class, 'historyClient'])->name('client.history');
     Route::prefix('/wedding')->group(function () {
+        Route::get('detail/{wedding}', [ViewController::class, 'detailWedding'])->name('detail.wedding');
         Route::get('/add', [ViewController::class, 'addWedding'])->name('add.wedding');
         Route::post('/add', [WeddingController::class, 'addWedding'])->name('add.post.wedding');
         Route::prefix('/choose')->group(function () {
             Route::get('/packets/{wedding}', [ViewController::class, 'choosePacket'])->name('choose.packet.wedding');
             Route::get('/packets/detail/{wedding}/{packet}', [ViewController::class, 'chooseDetailPacket'])->name('choose.detail.packet.wedding');
             Route::get('/custom/{wedding}/{custom}', [ViewController::class, 'chooseCustom'])->name('choose.custom.wedding');
-            Route::get('/custom/detail/{wedding}/{custom}/{vendor}', [ViewController::class, 'chooseDetailCustom'])->name('choose.detail.custom.wedding');
+            Route::get('/custom/detail/{wedding}/{custom}/{vendor}/{type}', [ViewController::class, 'chooseDetailCustom'])->name('choose.detail.custom.wedding');
         });
         Route::prefix('/select')->group(function () {
             Route::get('/packets/{$wedding}/{packet}', [ViewController::class, 'selectPacket'])->name('select.packet.wedding');
+            Route::get('/custom/{wedding}/{custom}/{vendor}/{type}', [ViewController::class, 'selectCustom'])->name('select.custom.wedding');
         });
     });
 });

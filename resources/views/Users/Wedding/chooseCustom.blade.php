@@ -16,23 +16,29 @@
             <div>
                 @foreach ($vendors->where('category_id', $category->id) as $vendor)
                     @php
+                        $name = $category->name . '_id';
+                    @endphp
+                    @if ($custom->$name == $vendor->id)
+                        <h1>Terpilih</h1>
+                    @endif
+                    @php
                         $vendorAttachments = $attachments->get($vendor->id, collect());
                     @endphp
                     @if ($vendorAttachments->isNotEmpty())
                         @php
                             $attachment = $vendorAttachments->first();
                         @endphp
-                        <h1>{{ $vendor->name }}</h1>
-                        <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}" width="500">
-                        <p>Price: {{ number_format($vendor->total_price, 0, ',', '.') }}</p>
-                        @if ($vendor->category->name == 'venue')
-                            <p>Address: {{ $vendor->address }}</p>
-                            <p>Total Guest: {{ $vendor->total_guest }}</p>
-                        @elseif ($vendor->category->name == 'catering')
-                            <p>Jumlah: {{ $vendor->qty }}</p>
-                        @endif
-                        <a href="{{ route('choose.detail.custom.wedding', [$wedding, $custom, $vendor]) }}">Detail</a>
                     @endif
+                    <h1>{{ $vendor->name }}</h1>
+                    <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}" width="500">
+                    <p>Price: {{ number_format($vendor->total_price, 0, ',', '.') }}</p>
+                    @if ($vendor->category->name == 'venue')
+                        <p>Address: {{ $vendor->address }}</p>
+                        <p>Total Guest: {{ $vendor->total_guest }}</p>
+                    @elseif ($vendor->category->name == 'catering')
+                        <p>Jumlah: {{ $vendor->qty }}</p>
+                    @endif
+                    <a href="{{ route('choose.detail.custom.wedding', [$wedding, $custom, $vendor, 'type' => $category->name]) }}">Detail</a>
                 @endforeach
             </div>
         </div>
