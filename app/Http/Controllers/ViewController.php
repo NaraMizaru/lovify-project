@@ -101,7 +101,8 @@ class ViewController extends Controller
             session()->forget($key);
         }
         session()->put($key, $vendor->id);
-        $custom->$type = $vendor->id;
+        $type_vendor = "{$type}_id";
+        $custom->$type_vendor = $vendor->id;
         $custom->save();
         return view('Users.Wedding.chooseCustom');
     }

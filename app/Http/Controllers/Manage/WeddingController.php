@@ -77,9 +77,9 @@ class WeddingController extends Controller
     public function addWedding(Request $request)
     {
         $credential = [
-            'name' => ['required','string'],
-            'date' => ['required','string'],
-            'type' => ['required','string'],
+            'name' => ['required', 'string'],
+            'date' => ['required', 'string'],
+            'type' => ['required', 'string'],
         ];
 
         $validator = Validator::make($request->all(), $credential);
@@ -100,17 +100,46 @@ class WeddingController extends Controller
         if ($type == 'custom') {
             $custom = new PacketCustom();
             $custom->save();
+
+            $taskNames = [
+                'venue',
+                'catering',
+                'decoration',
+                'photographer',
+                'mua'
+            ];
+
+            foreach ($taskNames as $taskName) {
+                $task = new Task();
+                $task->wedding_id = $wedding->id;
+                $task->name = $taskName;
+                $task->save();
+            }
             return redirect()->route('choose.custom.wedding', [$wedding, $custom]);
         } else if ($type == 'packet') {
+            $taskNames = [
+                'venue',
+                'catering',
+                'decoration',
+                'photographer',
+                'mua'
+            ];
+
+            foreach ($taskNames as $taskName) {
+                $task = new Task();
+                $task->wedding_id = $wedding->id;
+                $task->name = $taskName;
+                $task->save();
+            }
             return redirect()->route('choose.packet.wedding', $wedding);
         };
     }
 
-    public function updateWedding(Request $request ,Wedding $wedding = null, $type)
+    public function updateWedding(Request $request, Wedding $wedding = null, $type)
     {
         $credential = [
-            'name' => ['required','string'],
-            'date' => ['required','string'],
+            'name' => ['required', 'string'],
+            'date' => ['required', 'string'],
         ];
 
         if ($type == 'packet') {
