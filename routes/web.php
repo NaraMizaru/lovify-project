@@ -74,7 +74,9 @@ Route::prefix('/client')->middleware('is_client')->group(function () {
         Route::post('/add', [WeddingController::class, 'addWedding'])->name('add.post.wedding');
         Route::prefix('/choose')->group(function () {
             Route::get('/packets/{wedding}', [ViewController::class, 'choosePacket'])->name('choose.packet.wedding');
-            Route::get('/custom/{wedding}', [ViewController::class, 'chooseCustom'])->name('choose.custom.wedding');
+            Route::get('/packets/detail/{wedding}/{packet}', [ViewController::class, 'chooseDetailPacket'])->name('choose.detail.packet.wedding');
+            Route::get('/custom/{wedding}/{custom}', [ViewController::class, 'chooseCustom'])->name('choose.custom.wedding');
+            Route::get('/custom/detail/{wedding}/{custom}/{vendor}', [ViewController::class, 'chooseDetailCustom'])->name('choose.detail.custom.wedding');
         });
         Route::prefix('/select')->group(function () {
             Route::get('/packets/{$wedding}/{packet}', [ViewController::class, 'selectPacket'])->name('select.packet.wedding');

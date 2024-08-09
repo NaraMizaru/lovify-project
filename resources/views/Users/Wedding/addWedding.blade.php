@@ -30,88 +30,19 @@
         <input type="text" name="name" id="name">
         <label for="date">Date: </label>
         <input type="date" name="date" id="date">
+        <div>
+            <label>Choose Packet: </label>
+            <div>
+                <input type="radio" name="type" value="custom">
+                <label for="type">Custom</label>
+            </div>
+            <div>
+                <input type="radio" name="type" value="packet">
+                <label for="type">Packet</label>
+            </div>
+        </div>
         <button type="submit">Create</button>
     </form>
-    {{-- <h1>Create Your Custom Wedding</h1>
-    <form action="{{ route('post.wedding', $type) }}" method="POST">
-        @csrf
-        <label for="name">Name: </label>
-        <input type="text" name="name" id="name" required>
-        <label for="date">Date: </label>
-        <input type="date" name="date" id="date">
-        @if ($type == 'Packet')
-            @foreach ($packets as $packet)
-                <select name="packet_id" id="packet_id">
-                    <option value="{{ packet->id }}">{{ packet->name }}</option>
-                </select>
-            @endforeach
-            @elseif ($type == 'Custom')
-            <div>
-                @foreach ($categories as $category)
-                    <div>
-                        @csrf
-                        <h2>{{ $category->name }}</h2>
-                        @php
-                            $chosenVendorId = session("chosen_vendor.{$category->id}");
-                            $chosenVendor = $vendors->where('id', $chosenVendorId)->first();
-                        @endphp
-                        @if ($chosenVendor)
-                            <div class="card">
-                                <h3>{{ $chosenVendor->name }} (Chosen)</h3>
-                                @php
-                                    $vendorAttachments = $attachments->get($chosenVendor->id, collect());
-                                @endphp
-                                @if ($vendorAttachments->isNotEmpty())
-                                    @php
-                                        $attachment = $vendorAttachments->first();
-                                    @endphp
-                                    <div>
-                                        <img src="{{ asset($attachment->image_path) }}" alt="{{ $chosenVendor->name }}"
-                                            width="200">
-                                    </div>
-                                @else
-                                    <p>No attachments available</p>
-                                @endif
-                                <a href="{{ route('vendor.detail', ['id' => $chosenVendor->id]) }}">Detail</a>
-                                <a href="{{ route('wedding.choose', ['type' => 'Custom', 'change_category' => $category->id]) }}">Change</a>
-                            </div>
-                        @else
-                            @foreach ($vendors->where('category_id', $category->id) as $vendor)
-                                <div class="card">
-                                    <h3>{{ $vendor->name }}</h3>
-                                    @php
-                                        $vendorAttachments = $attachments->get($vendor->id, collect());
-                                    @endphp
-                                    @if ($vendorAttachments->isNotEmpty())
-                                        @php
-                                            $attachment = $vendorAttachments->first();
-                                        @endphp
-                                        <div>
-                                            <img src="{{ asset($attachment->image_path) }}" alt="{{ $vendor->name }}"
-                                                width="200">
-                                        </div>
-                                    @else
-                                        <p>No attachments available</p>
-                                    @endif
-                                    <a href="{{ route('vendor.detail', ['id' => $vendor->id]) }}">Detail</a>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                @endforeach
-                <button type="submit">Save Custom Wedding</button>
-            </div>
-        @endif
-    </form> --}}
-
-    {{-- <script>
-        function selectItem(category, itemId) {
-            const items = document.querySelectorAll(`[data-id^="${category}"]`);
-            items.forEach(item => item.classList.remove('disabled'));
-
-            document.querySelector(`[data-id="${itemId}"]`).classList.add('disabled');
-        }
-    </script> --}}
 </body>
 
 </html>

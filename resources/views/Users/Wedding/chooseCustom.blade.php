@@ -31,7 +31,7 @@
                         @elseif ($vendor->category->name == 'catering')
                             <p>Jumlah: {{ $vendor->qty }}</p>
                         @endif
-                        <a href="">Detail</a>
+                        <a href="{{ route('choose.detail.custom.wedding', [$wedding, $custom, $vendor]) }}">Detail</a>
                     @endif
                 @endforeach
             </div>

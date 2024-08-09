@@ -65,6 +65,11 @@ class ViewController extends Controller
         return view('Users.Wedding.choosePacket', compact('wedding', 'packets'));
     }
 
+    public function chooseDetailPacket(Wedding $wedding, Packet $packet)
+    {
+        return view('Users.Wedding.chooseDetailPacket', compact('wedding', 'packet'));
+    }
+
     public function selectPacket(Wedding $wedding, Packet $packet)
     {
         $price = $packet->price;
@@ -75,13 +80,30 @@ class ViewController extends Controller
         return redirect()->route('client.weddings');
     }
 
-    public function chooseCustom(Wedding $wedding)
+    public function chooseCustom(Wedding $wedding, PacketCustom $custom)
     {
-        $custom = new PacketCustom();
         $categories = Category::all();
         $vendors = Vendor::all();
         $attachments = VendorAttachment::all()->groupBy('vendor_id');
         return view('Users.Wedding.chooseCustom', compact('wedding', 'custom', 'categories', 'vendors', 'attachments'));
+    }
+
+    public function chooseDetailCustom(Wedding $wedding, PacketCustom $custom, Vendor $vendor)
+    {
+        $attachments = VendorAttachment::where('vendor_id', $vendor->id)->get();
+        return view('Users.Wedding.chooseDetailCustom', compact('wedding', 'custom', 'vendor', 'attachments'));
+    }
+
+    public function selectCustom(Wedding $wedding, PacketCustom $custom, Vendor $vendor, $type)
+    {
+        $key = "chosen_vendor.{$custom->id}.{$type}";
+        if (session()->has($key)) {
+            session()->forget($key);
+        }
+        session()->put($key, $vendor->id);
+        $custom->$type = $vendor->id;
+        $custom->save();
+        return view('Users.Wedding.chooseCustom');
     }
 
     public function transactionsClient()

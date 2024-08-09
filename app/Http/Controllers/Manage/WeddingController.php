@@ -79,12 +79,15 @@ class WeddingController extends Controller
         $credential = [
             'name' => ['required','string'],
             'date' => ['required','string'],
+            'type' => ['required','string'],
         ];
 
         $validator = Validator::make($request->all(), $credential);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
         }
+
+        $type = $request->type;
 
         $wedding = new Wedding();
         $wedding->user_id = Auth::user()->id;
@@ -94,7 +97,13 @@ class WeddingController extends Controller
         $wedding->dp_price = 0;
         $wedding->save();
 
-        return view('Users.Wedding.choosePacketOrCustom', compact('wedding'));
+        if ($type == 'custom') {
+            $custom = new PacketCustom();
+            $custom->save();
+            return redirect()->route('choose.custom.wedding', [$wedding, $custom]);
+        } else if ($type == 'packet') {
+            return redirect()->route('choose.packet.wedding', $wedding);
+        };
     }
 
     public function updateWedding(Request $request ,Wedding $wedding = null, $type)
